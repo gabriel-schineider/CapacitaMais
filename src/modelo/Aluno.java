@@ -80,6 +80,11 @@ public class Aluno extends Usuario {
 		}
 		return false;
 	}
+
+	//ordenação da lista certificados
+	public void OrdenarCertificados() {
+		Collections.sort(certificados);
+	}
 	
 	public void inativar() {
 		cadastroAtivo= false;
