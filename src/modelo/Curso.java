@@ -42,6 +42,10 @@ public class Curso {
 			aberto = true;
 		}
 	}
+
+	public boolean isAberto() {
+			return aberto;
+		}
 	
 	public void fecharCurso() {
 		if (aberto) {
@@ -124,4 +128,12 @@ public class Curso {
 		Curso other = (Curso) obj;
 		return Objects.equals(nome, other.nome);
 	}
+
+	public String getNome() {
+			return nome;
+		}
+        
+	public int getCargaHorariaHoras() {
+			return cargaHorariaHoras;
+		}
 }
