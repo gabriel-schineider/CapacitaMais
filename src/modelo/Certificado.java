@@ -2,7 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Certificado {
+public class Certificado implements Comparable<Certificado> {
 	private String nomeAluno;
 	private String nomeCurso;
 	private int cargaHorariaHoras;
@@ -20,6 +20,12 @@ public class Certificado {
 			this.cargaHorariaHoras = cargaHorariaHoras;
 		}
 		dataEmissao = LocalDate.now();
+	}
+
+	// Ordenação
+	@Override
+	public int compareTo(Certificado outro) {
+		return nomeCurso.compareTo(outro.nomeCurso);
 	}
 	
 	public void exibirCertificado() {
