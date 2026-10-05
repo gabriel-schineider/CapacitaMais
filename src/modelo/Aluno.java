@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Aluno extends Usuario {
 	private ArrayList<Inscricao> inscricoes;
