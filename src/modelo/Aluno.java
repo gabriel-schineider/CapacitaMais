@@ -91,6 +91,7 @@ public class Aluno extends Usuario {
 	}
 	
 	public void exibirInformacoes() {
+		System.out.println("--> Informações de Aluno:");
 		super.exibirInformacoes();
 		System.out.println("Inscrições ativas: " +contarInscricoesAtivas());
 		System.out.println("Quantidade de certificados: "+certificados.size()); 
