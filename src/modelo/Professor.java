@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Professor extends Usuario {
+public class Professor extends Usuario implements Notificavel{
 	// Atributos
 	private Especialidade especialidade;
 	private ArrayList<Curso> cursos;
@@ -56,4 +56,10 @@ public class Professor extends Usuario {
 		}
 		System.out.printf("}\n");
 	}
+
+	@Override
+		public void notificar(String mensagem) {
+			System.out.println(mensagem);
+			
+		}
 }
