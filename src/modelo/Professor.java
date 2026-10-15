@@ -6,7 +6,7 @@ public class Professor extends Usuario {
 	// Atributos
 	private Especialidade especialidade;
 	private ArrayList<Curso> cursos;
-	private final int LIMITE_CURSOS = 5;
+	private static final int LIMITE_CURSOS = 5;
 	
 	// Construtor
 	public Professor(String nome, String cpf, int idade, String email, Especialidade especialidade) {

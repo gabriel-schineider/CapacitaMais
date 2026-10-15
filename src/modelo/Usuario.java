@@ -3,11 +3,10 @@ package modelo;
 import java.util.Objects;
 
 public abstract class Usuario {
-	// Atributos
 	protected String nome;
 	protected String cpf;
 	protected int idade;
-	private final int idadeMinima = 16;
+	private static final int idadeMinima = 16;
 	protected String email;
 	protected boolean cadastroAtivo;
 	
@@ -53,10 +52,14 @@ public abstract class Usuario {
 		return cadastroAtivo;
 	}
 	
-	public void exibirInformacoes() {
-		System.out.printf("\tNome: %s\n\tCPF: %s\n\tIdade: %d\n\tE-mail: %s\n", nome, cpf, idade, email);
+	public abstract void exibirInformacoes();
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cpf);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

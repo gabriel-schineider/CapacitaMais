@@ -1,49 +1,41 @@
 package modelo;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 
 public class Aluno extends Usuario {
-	private ArrayList<Inscricao> inscricoes;
-	private ArrayList<Certificado> certificados;
+	private Set<Inscricao> inscricoes;
+	private Set<Certificado> certificados;
+	private int inscricoesAtivas;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
 
 	// Construtor
 	public Aluno(String nome, String cpf, int idade, String email) {
 		super(nome, cpf, idade, email);
-		inscricoes = new ArrayList<Inscricao>();
-		certificados = new ArrayList<Certificado>();
+		inscricoes = new Set<Inscricao>();
+		certificados = new Set<Certificado>();
 	}
 
 	// Métodos
-
-	public int contarInscricoesAtivas() {
-		int qtdAtivas = 0;
-		for (Inscricao inscricao : inscricoes) {
-			if (inscricao.isAtiva()) {
-				qtdAtivas++;
-			}
-		}
-		return qtdAtivas;
-	}
-
-	public boolean inscrever(Curso curso) {
-		if (curso == null) {
-			return false;
-		}
+	
+	public boolean realizarInscricao(Curso curso) { // FALTA VERIFICAR OS STATUS "CANCELADA" E "DESATIVADA", POIS A REGRA DE NEGÓCIO APLICÁVEL SERÁ DIFERENTE.
 		if (!isCadastroAtivo()) {
 			return false;
 		}
-
-		if (contarInscricoesAtivas() >= MAX_INSCRICOES_ATIVAS) {
+		if (curso == null || !curso.isAberto() || !curso.temVaga()) {
+			return false;
+		}
+		if (inscricoesAtivas == MAX_INSCRICOES_ATIVAS) {
 			return false;
 		}
 
-		// saber se o aluno ja esta inscrito no curso ou se ja concluiu nesse curso que ele quer se inscrever
 		for (Inscricao inscricao : inscricoes) {
 			if (inscricao.getCurso().equals(curso)) {
 				if (inscricao.isAtiva() || inscricao.isConcluida()) {
 					return false;
+				}
+				if (inscricao.isCancelada() || inscricao.isReprovada()) {
+					
 				}
 			}
 		}
@@ -98,8 +90,12 @@ public class Aluno extends Usuario {
 	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Aluno:");
-		super.exibirInformacoes();
-		System.out.println("Inscrições ativas: " +contarInscricoesAtivas());
-		System.out.println("Quantidade de certificados: "+certificados.size()); 
+		System.out.println("Nome: " + nome);
+		System.out.println("CPF: " + cpf);
+		System.out.println("Idade: " + idade);
+		System.out.println("E-mail: " + email);
+		System.out.println("Inscrições ativas: " + inscricoesAtivas);
+		System.out.println("Quantidade de certificados: " + certificados.size()); 
 		
 	}
+}

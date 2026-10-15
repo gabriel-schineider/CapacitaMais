@@ -37,7 +37,7 @@ public class Inscricao {
 		 float notaObtida= curso.aplicarProva(nota);
 		 tentativas++;
 		 
-		 if(notaObtida > notaFinal) {
+		 if(notaObtida >= notaFinal) {
 			 notaFinal= notaObtida;
 		 }
 		 
@@ -69,6 +69,14 @@ public class Inscricao {
 	 public boolean isConcluida() {
 		 return status== StatusInscricao.CONCLUIDA;
 	 }
+
+	 public boolean isCancelada() {
+		 return status== StatusInscricao.CANCELADA;
+	 }
+	 
+	 public boolean isReprovada() {
+		 return status== StatusInscricao.REPROVADA;
+	 }
 	 
 	 public boolean reativar() {
 		 if(curso.isAberto() && curso.temVaga()) {
@@ -92,3 +100,4 @@ public class Inscricao {
 	public Curso getCurso() {
 		return curso;
 	}
+}

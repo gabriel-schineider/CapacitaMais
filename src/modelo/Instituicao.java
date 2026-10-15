@@ -16,6 +16,7 @@ public class Instituicao {
 		}
 		professores = new ArrayList<>();
 		cursos = new ArrayList<>();
+		totalDeCursos = 0;
 	}
 	
 	// Métodos
