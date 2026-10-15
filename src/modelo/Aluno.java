@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Aluno extends Usuario {
+public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
 	private ArrayList<Certificado> certificados;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
@@ -103,3 +103,10 @@ public class Aluno extends Usuario {
 		System.out.println("Quantidade de certificados: "+certificados.size()); 
 		
 	}
+
+	@Override
+	public void notificar(String mensagem) {
+		System.out.println(mensagem);
+		
+	}
+}
