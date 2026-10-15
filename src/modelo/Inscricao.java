@@ -2,6 +2,7 @@ package modelo;
 
 public class Inscricao {
 	private Curso curso;
+	private Certificado certificado;
 	private StatusInscricao status;
 	private float notaFinal;
 	private int tentativas;
@@ -86,6 +87,18 @@ public class Inscricao {
 			 }
 		 }
 		 return false;
+	 }
+
+	
+	 //impedir que o aluno crie o mesmo certificado duas ou mais vezes
+	 public Certificado solicitarCertificado(String nomeALuno) {
+		 if(status != StatusInscricao.CONCLUIDA) {
+			 return null;
+		 }
+		 if(certificado==null) {
+			 certificado= new Certificado(nomeALuno, curso.getNome(), curso.getCargaHorariaHoras());
+		 }
+		 return certificado;
 	 }
 	 
 	
