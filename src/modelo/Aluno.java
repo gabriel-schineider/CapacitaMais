@@ -66,15 +66,15 @@ public class Aluno extends Usuario {
 	}
 	
 	public void adicionarCertificado(Certificado certificado) {
-		if(certificado != null) {
+		if(certificado != null && !certificados.contains(certificado)) {
 			certificados.add(certificado);
 		}
 	}
 	
 	public boolean solicitarCertificado(Curso curso) {
 		for(Inscricao inscricao: inscricoes) {
-			if(inscricao.getCurso().equals(curso) && inscricao.isConcluida()) {
-				Certificado certificado= new Certificado(nome, curso.getNome(), curso.getCargaHorariaHoras());
+			if(i.getCurso().equals(curso) && i.isConcluida()) {
+				Certificado certificado= inscricao.solicitarCertificado(this.nome);
 				adicionarCertificado(certificado);
 				return true;
 			}
