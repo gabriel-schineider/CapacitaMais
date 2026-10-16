@@ -27,23 +27,42 @@ public class Professor extends Usuario {
 	}
 	
 	boolean contemCurso(Curso curso) {
-		if (!cursos.contains(curso)) {
-			cursos.add(curso);
+		return cursos.contains(curso);
+	}
+	
+	boolean adicionarCurso(Curso curso) {
+		if (podeReceberCurso()) {
+			if (!contemCurso(curso)) {
+				cursos.add(curso);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	boolean removerCurso(Curso curso) {
+		if (contemCurso(curso)) {
+			cursos.remove(curso);
 			return true;
 		}
 		return false;
 	}
 	
-	void adicionarCurso(Curso curso) {
-		cursos.add(curso);
-	}
-	
-	void removerCurso(Curso curso) {
-		cursos.remove(curso);
+	public boolean desativarCadastro() {
+		if(cadastroAtivo) {
+			for(Curso curso: cursos) {
+				if(contemCurso(curso)) {
+					removerCurso(curso);
+				}
+			}
+			cadastroAtivo = false;
+			return true;
+		}
+		return false;
 	}
 	
 	public void exibirNome() {
-		System.out.printf("%s", nome);
+		System.out.print(nome);
 	}
 	
 	public void exibirInformacoes() {

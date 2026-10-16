@@ -42,10 +42,12 @@ public abstract class Usuario {
 		}
 	}
 	
-	public void desativarCadastro() {
+	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			cadastroAtivo = false;
+			return true;
 		}
+		return false;
 	}
 	
 	public boolean isCadastroAtivo() {

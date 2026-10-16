@@ -7,7 +7,6 @@ import java.util.Collections;
 public class Aluno extends Usuario {
 	private ArrayList<Inscricao> inscricoes;
 	private ArrayList<Certificado> certificados;
-	private int inscricoesAtivas;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
 
 	// Construtor
@@ -18,6 +17,15 @@ public class Aluno extends Usuario {
 	}
 
 	// Métodos
+	private int contarInscricoesAtivas() {
+		int qtdAtivas = 0;
+		for (Inscricao inscricao : inscricoes) {
+			if (inscricao.isAtiva()) {
+				qtdAtivas++;
+			}
+		}
+		return qtdAtivas;
+	}
 	
 	public boolean realizarInscricao(Curso curso) {
 		if (!isCadastroAtivo()) {
@@ -26,7 +34,7 @@ public class Aluno extends Usuario {
 		if (curso == null || !curso.isAberto() || !curso.temVaga()) {
 			return false;
 		}
-		if (inscricoesAtivas == MAX_INSCRICOES_ATIVAS) { // PRECISO VER A LÓGICA DE ADD INSCRIÇÃO ATIVA PARA VER SE, DE FATO, ADD SEMPRE +1 E POSSO USAR O "==" AO INVÉS DO ">=", QUE NÃO FARIA SENTIDO...
+		if (contarInscricoesAtivas() == MAX_INSCRICOES_ATIVAS) {
 			return false;
 		}
 		// Verificando se já existe uma inscrição para esse curso
@@ -37,7 +45,6 @@ public class Aluno extends Usuario {
 				}
 				if (inscricao.isCancelada() || inscricao.isReprovada()) {
 					inscricao.reativarInscricao();
-					inscricoesAtivas++;
 					return true;
 				}
 			}
@@ -46,7 +53,6 @@ public class Aluno extends Usuario {
 		// Isso é uma composição!
 		Inscricao novaInscricao = new Inscricao(curso);
 		inscricoes.add(novaInscricao);
-		inscricoesAtivas++;
 		return true;
 	}
 	
@@ -55,7 +61,6 @@ public class Aluno extends Usuario {
 			if (inscricao.getCurso().equals(curso)) {
 				if (inscricao.isAtiva()) {
 					inscricao.cancelarInscricao();
-					inscricoesAtivas--;
 					return true;
 				}
 			}
@@ -63,25 +68,26 @@ public class Aluno extends Usuario {
 		return false;
 	}
 
-	public void desativarCadastro() {
+	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			for(Inscricao inscricao: inscricoes) {
 				if(inscricao.isAtiva()) {
 					inscricao.cancelarInscricao();
-					inscricoesAtivas--;
 				}
 			}
 			cadastroAtivo = false;
+			return true;
 		}
+		return false;
 	}
 	
-	public void adicionarCertificado(Certificado certificado) {
+	void adicionarCertificado(Certificado certificado) {
 		if(certificado != null) {
 			certificados.add(certificado);
 		}
 	}
 	
-	public boolean solicitarCertificado(Curso curso) {
+	boolean solicitarCertificado(Curso curso) {
 		for(Inscricao inscricao: inscricoes) {
 			if(inscricao.getCurso().equals(curso) && inscricao.isConcluida()) {
 				Certificado certificado= new Certificado(nome, curso.getNome(), curso.getCargaHorariaHoras());
@@ -92,11 +98,10 @@ public class Aluno extends Usuario {
 		return false;
 	}
 
-	//ordenação da lista certificados
+	// Ordenação da lista certificados
 	public void OrdenarCertificados() {
 		Collections.sort(certificados);
 	}
-	
 	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Aluno:");
@@ -104,8 +109,7 @@ public class Aluno extends Usuario {
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);
 		System.out.println("E-mail: " + email);
-		System.out.println("Inscrições ativas: " + inscricoesAtivas);
-		System.out.println("Quantidade de certificados: " + certificados.size()); 
-		
+		System.out.println("Inscrições ativas: " + contarInscricoesAtivas());
+		System.out.println("Quantidade de certificados: " + certificados.size());
 	}
 }
