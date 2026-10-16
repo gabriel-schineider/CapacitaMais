@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Curso {
 	private String nome;
+	private Area area;
 	private int vagas;
 	private int cargaHorariaHoras;
 	private ArrayList<Professor> professores;
@@ -14,14 +15,18 @@ public class Curso {
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	Curso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
+	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras, Professor professor) {
 		
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
 		}
+		
+		this.area = area;
+		
 		if (vagas > 0) {
 			this.vagas = vagas;	
 		}
+		
 		if (cargaHorariaHoras > 0) {
 			this.cargaHorariaHoras = cargaHorariaHoras;	
 		}
@@ -39,11 +44,14 @@ public class Curso {
 		inscricoesReprovadas = 0;
 	}
 	
-	public Curso(String nome, int vagas, int cargaHorariaHoras) {
+	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras) {
 		
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
 		}
+		
+		this.area = area;
+		
 		if (vagas > 0) {
 			this.vagas = vagas;	
 		}
@@ -181,9 +189,10 @@ public class Curso {
 		return professores;
 	}
 	
-	void exibirInformacoes() {
-		System.out.println("--> Curso:");
+	public void exibirInformacoes() {
+		System.out.println("--> Informações de Curso:");
 		System.out.println("Nome: " + nome);
+		System.out.println("Área: " + area);
 		System.out.println("Vagas: " + vagas);
 		System.out.println("Carga horário em horas: " + cargaHorariaHoras);
 		

@@ -6,17 +6,17 @@ import java.util.Collections;
 
 public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
-	private ArrayList<Certificado> certificados;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
+	private ArrayList<Certificado> certificados;
+	private ArrayList<Comunidade> comunidades;
 
-	// Construtor
 	public Aluno(String nome, String cpf, int idade, String email) {
 		super(nome, cpf, idade, email);
 		inscricoes = new ArrayList<Inscricao>();
 		certificados = new ArrayList<Certificado>();
+		comunidades = new ArrayList<>();
 	}
 
-	// Métodos
 	private int contarInscricoesAtivas() {
 		int qtdAtivas = 0;
 		for (Inscricao inscricao : inscricoes) {
@@ -50,7 +50,6 @@ public class Aluno extends Usuario implements Notificavel{
 			}
 		}
 		// Criando uma nova inscrição para esse curso
-		// Isso é uma composição!
 		Inscricao novaInscricao = new Inscricao(curso);
 		inscricoes.add(novaInscricao);
 		return true;
@@ -123,6 +122,28 @@ public class Aluno extends Usuario implements Notificavel{
 		}
 	}
 	
+	private boolean contemComunidade(Comunidade comunidade) {
+		return comunidades.contains(comunidade);
+	}
+	
+	public boolean adicionarComunidade(Comunidade comunidade) {
+		if (!contemComunidade(comunidade)) {
+			comunidades.add(comunidade);
+			comunidade.adicionarAluno();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removerComunidade(Comunidade comunidade) {
+		if (contemComunidade(comunidade)) {
+			comunidade.removerAluno();
+			comunidades.remove(comunidade);
+			return true;
+		}
+		return false;	
+	}
+	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Aluno:");
 		System.out.println("Nome: " + nome);
@@ -133,10 +154,9 @@ public class Aluno extends Usuario implements Notificavel{
 		System.out.println("Quantidade de certificados: " + certificados.size());
 	}
 	
-	
-	// Implementação da interface Notificavel
 	@Override
 	public void notificar(String mensagem) {
-		System.out.println(mensagem);
+		System.out.printf("Mensagem de aluno(a) %s:\n", nome);
+		System.out.printf("   %s\n", mensagem);
 	}
 }

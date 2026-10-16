@@ -3,15 +3,16 @@ package modelo;
 import java.util.ArrayList;
 
 public class Professor extends Usuario implements Notificavel{
-	private Especialidade especialidade;
+	private Area area;
 	private ArrayList<Curso> cursos;
 	private static final int LIMITE_CURSOS = 5;
+	private ArrayList<Comunidade> comunidades;
 	
-	public Professor(String nome, String cpf, int idade, String email, Especialidade especialidade) {
+	public Professor(String nome, String cpf, int idade, String email, Area area) {
 		super(nome, cpf, idade, email);
-		
-		this.especialidade = especialidade;
+		this.area = area;
 		cursos = new ArrayList<Curso>(LIMITE_CURSOS);
+		comunidades = new ArrayList<>();
 	}
 	
 	private boolean podeReceberCurso() {
@@ -78,6 +79,28 @@ public class Professor extends Usuario implements Notificavel{
 		return aluno.receberNota(curso, nota);
 	}
 	
+	private boolean contemComunidade(Comunidade comunidade) {
+		return comunidades.contains(comunidade);
+	}
+	
+	public boolean adicionarComunidade(Comunidade comunidade) {
+		if (!contemComunidade(comunidade)) {
+			comunidades.add(comunidade);
+			comunidade.adicionarProfessor();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removerComunidade(Comunidade comunidade) {
+		if (contemComunidade(comunidade)) {
+			comunidade.removerProfessor();
+			comunidades.remove(comunidade);
+			return true;
+		}
+		return false;	
+	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -88,7 +111,7 @@ public class Professor extends Usuario implements Notificavel{
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);
 		System.out.println("E-mail: " + email);
-		System.out.println("Especialidade: " + especialidade);
+		System.out.println("Área: " + area);
 		
 		System.out.print("Cursos: { ");
 		for (Curso curso : cursos) {
@@ -98,7 +121,8 @@ public class Professor extends Usuario implements Notificavel{
 	
 	@Override
 	public void notificar(String mensagem) {
-		System.out.println(mensagem);
+		System.out.printf("Mensagem de professor(a) %s:\n", nome);
+		System.out.printf("   %s\n", mensagem);
 		
 	}
 }

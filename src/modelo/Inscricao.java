@@ -9,25 +9,13 @@ public class Inscricao {
 	private static final int MAX_TENTATIVAS= 3;
 	private static final float NOTA_MINIMA= 8.0f;
 	
-	//Construtor
 	Inscricao(Curso curso) {
-		// Isso é uma agregação!
 		this.curso = curso;
 		this.notaFinal = 0;
 		this.tentativas = 0;
 		this.status = StatusInscricao.ATIVA;
 		curso.registrarInscricaoAtiva();
 	}
-	
-	//Métodos
-	
-/*	public boolean validarInscricao(Curso curso) {
-		if(curso!=null && curso.isAberto() && curso.temVaga()) {
-			curso.registrarInscricaoAtiva();
-			return true;
-		}
-		return false;
-	}*/
 	
 	 public StatusInscricao fazerProva(float nota){
 		 if(!isInscricaoAtiva()) {
@@ -104,7 +92,6 @@ public class Inscricao {
 				 return null;
 			 }
 			 if(certificado==null) {
-				 // Isso é uma composição!
 				 certificado= new Certificado(nomeALuno, curso.getNome(), curso.getCargaHorariaHoras());
 			 }
 			 return certificado;
