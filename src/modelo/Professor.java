@@ -27,19 +27,26 @@ public class Professor extends Usuario implements Notificavel{
 	}
 	
 	boolean contemCurso(Curso curso) {
-		if (!cursos.contains(curso)) {
-			cursos.add(curso);
-			return true;
-		}
-		return false;
+			return cursos.contains(curso);
 	}
-	
+		
 	void adicionarCurso(Curso curso) {
-		cursos.add(curso);
+			if (!contemCurso(curso)) {
+				cursos.add(curso);
+			}
+	}
+					
+	void removerCurso(Curso curso) {
+			if (contemCurso(curso)) {
+				cursos.remove(curso);
+			}
 	}
 	
-	void removerCurso(Curso curso) {
-		cursos.remove(curso);
+	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {
+			if(aluno== null || !contemCurso(curso)) {
+				return null; //professor só pode lançar notas no curso dele
+			}
+			return aluno.receberNota(curso, nota);
 	}
 	
 	public void exibirNome() {
