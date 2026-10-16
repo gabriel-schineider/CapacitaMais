@@ -3,7 +3,6 @@ package modelo;
 import java.util.Objects;
 
 public class Curso {
-	// Atributos
 	private String nome;
 	private int vagas;
 	private int cargaHorariaHoras;
@@ -37,16 +36,16 @@ public class Curso {
 		inscricoesReprovadas = 0;
 	}
 	
+	public boolean isAberto() {
+		return aberto;
+	}
+
 	public void abrirCurso() {
 		if (!aberto) {
 			aberto = true;
 		}
 	}
 
-	public boolean isAberto() {
-			return aberto;
-		}
-	
 	public void fecharCurso() {
 		if (aberto) {
 			aberto = false;
@@ -55,7 +54,14 @@ public class Curso {
 	
 	void trocarProfessor(Professor professorNovo) {
 		// Vizibilidade package porque somente a Instituição deve validar e sincronizar as classes Professor e Curso. A Main não.
-		professor = professorNovo;
+		if (professorNovo != null) {
+			professor = professorNovo;	
+		}
+	}
+	
+	void removerProfessor() {
+		professor = null;
+		fecharCurso();
 	}
 	
 	public boolean temVaga() {
@@ -108,16 +114,38 @@ public class Curso {
 		return inscricoesAtivas + inscricoesConcluidas + inscricoesCanceladas + inscricoesReprovadas;
 	}
 	
-	public void exibirNome() {
-		System.out.printf("%s", nome);
+	public String getNome() {
+		return nome;
+	}
+    
+	public int getCargaHorariaHoras() {
+		return cargaHorariaHoras;
+	}
+	
+	public Professor getProfessor() {
+		return professor;
 	}
 	
 	public void exibirInformacoes() {
-		System.out.printf("--> Curso:\n\tNome: %s\n\tVagas: %d\n\tCarga horário em horas: %d\n\tProfessor: ", nome, vagas, cargaHorariaHoras);
-		professor.exibirNome();
-		System.out.printf("\n\tCurso aberto: %b\n\tTotal de inscrições: %d\n\tInscrições ativas: %d\n\tInscrições concluídas: %d\n\tInscrições canceladas: %d\n\tInscrições reprovadas: %d\n", aberto, calcularTotalInscricoes(), inscricoesAtivas, inscricoesConcluidas, inscricoesCanceladas, inscricoesReprovadas);
+		System.out.println("--> Curso:");
+		System.out.println("Nome: " + nome);
+		System.out.println("Vagas: " + vagas);
+		System.out.println("Carga horário em horas: " + cargaHorariaHoras);
+		System.out.println("Professor: " + professor.getNome());
+		System.out.println("Curso aberto: " + aberto);
+		System.out.println("Total de inscrições: " + calcularTotalInscricoes());
+		System.out.println("Inscrições ativas: " + inscricoesAtivas);
+		System.out.println("Inscrições concluídas: " + inscricoesConcluidas);
+		System.out.println("Inscrições canceladas: " + inscricoesCanceladas);
+		System.out.println("Inscrições reprovadas: " + inscricoesReprovadas);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(nome);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -128,12 +156,4 @@ public class Curso {
 		Curso other = (Curso) obj;
 		return Objects.equals(nome, other.nome);
 	}
-
-	public String getNome() {
-			return nome;
-		}
-        
-	public int getCargaHorariaHoras() {
-			return cargaHorariaHoras;
-		}
 }

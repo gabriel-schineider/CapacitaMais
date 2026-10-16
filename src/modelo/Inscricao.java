@@ -2,6 +2,7 @@ package modelo;
 
 public class Inscricao {
 	private Curso curso;
+	private Certificado certificado;
 	private StatusInscricao status;
 	private float notaFinal;
 	private int tentativas;
@@ -29,7 +30,7 @@ public class Inscricao {
 	}*/
 	
 	 public StatusInscricao fazerProva(float nota){
-		 if(status != StatusInscricao.ATIVA) {
+		 if(!isInscricaoAtiva()) {
 			 return status;
 		 }
 		 if(tentativas>= MAX_TENTATIVAS) {
@@ -47,7 +48,7 @@ public class Inscricao {
 			 status= StatusInscricao.CONCLUIDA;
 			 curso.registrarTransicaoDeInscricaoAtivaParaConcluida();
 		 } else {
-			 if(tentativas >=MAX_TENTATIVAS) {
+			 if(tentativas == MAX_TENTATIVAS) {
 				 status= StatusInscricao.REPROVADA;
 				 curso.registrarTransicaoDeInscricaoAtivaParaReprovada();
 			 }
@@ -55,24 +56,24 @@ public class Inscricao {
 		 return status;
 	 }
 	 
-	 public boolean isAtiva() {
+	 public boolean isInscricaoAtiva() {
 		 return status == StatusInscricao.ATIVA;
 	 }
 	 
-	 public boolean isConcluida() {
+	 public boolean isInscricaoConcluida() {
 		 return status== StatusInscricao.CONCLUIDA;
 	 }
 
-	 public boolean isCancelada() {
+	 public boolean isInscricaoCancelada() {
 		 return status== StatusInscricao.CANCELADA;
 	 }
 	 
-	 public boolean isReprovada() {
+	 public boolean isInscricaoReprovada() {
 		 return status== StatusInscricao.REPROVADA;
 	 }
 	 
 	 public boolean cancelarInscricao() {
-		 if(status == StatusInscricao.ATIVA) {
+		 if(isInscricaoAtiva()) {
 			 status = StatusInscricao.CANCELADA;
 			 curso.registrarTransicaoDeInscricaoAtivaParaCancelada();
 			 return true;
@@ -82,12 +83,12 @@ public class Inscricao {
 	 
 	 public boolean reativarInscricao() {
 		 if(curso.isAberto() && curso.temVaga()) {
-			 if(status == StatusInscricao.CANCELADA) {
+			 if(isInscricaoCancelada()) {
 				 status= StatusInscricao.ATIVA;
 				 curso.registrarTransicaoDeInscricaoCanceladaParaAtiva();
 				 return true;
 			 }
-			 if(status == StatusInscricao.REPROVADA) {
+			 if(isInscricaoReprovada()) {
 				 notaFinal=0;
 				 tentativas=0;
 				 status= StatusInscricao.ATIVA;
@@ -98,6 +99,16 @@ public class Inscricao {
 		 return false;
 	 }
 	 
+	public Certificado solicitarCertificado(String nomeALuno) {
+			 if(isInscricaoConcluida()) { //impedir que o aluno crie o mesmo certificado duas ou mais vezes
+				 return null;
+			 }
+			 if(certificado==null) {
+				 // Isso é uma composição!
+				 certificado= new Certificado(nomeALuno, curso.getNome(), curso.getCargaHorariaHoras());
+			 }
+			 return certificado;
+		 }
 	
 	public Curso getCurso() {
 		return curso;

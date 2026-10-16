@@ -2,8 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Professor extends Usuario {
-	// Atributos
+public class Professor extends Usuario implements Notificavel{
 	private Especialidade especialidade;
 	private ArrayList<Curso> cursos;
 	private static final int LIMITE_CURSOS = 5;
@@ -41,19 +40,15 @@ public class Professor extends Usuario {
 	}
 	
 	boolean removerCurso(Curso curso) {
-		if (contemCurso(curso)) {
-			cursos.remove(curso);
-			return true;
-		}
-		return false;
+		curso.removerProfessor();
+		return cursos.remove(curso);
 	}
 	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			for(Curso curso: cursos) {
-				if(contemCurso(curso)) {
-					removerCurso(curso);
-				}
+				curso.removerProfessor();
+				removerCurso(curso);
 			}
 			cadastroAtivo = false;
 			return true;
@@ -61,8 +56,15 @@ public class Professor extends Usuario {
 		return false;
 	}
 	
-	public void exibirNome() {
-		System.out.print(nome);
+	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {
+		if(aluno== null || !contemCurso(curso)) {
+			return null; //professor só pode lançar notas no curso dele
+		}
+		return aluno.receberNota(curso, nota);
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 	
 	public void exibirInformacoes() {
@@ -72,11 +74,16 @@ public class Professor extends Usuario {
 		System.out.println("Idade: " + idade);
 		System.out.println("E-mail: " + email);
 		System.out.println("Especialidade: " + especialidade);
+		
 		System.out.print("Cursos: { ");
 		for (Curso curso : cursos) {
-			curso.exibirNome();
-			System.out.printf(" ");
-		}
-		System.out.print("}\n");
+			System.out.printf("%s ", curso.getNome());
+		} System.out.println("}");
+	}
+	
+	@Override
+	public void notificar(String mensagem) {
+		System.out.println(mensagem);
+		
 	}
 }

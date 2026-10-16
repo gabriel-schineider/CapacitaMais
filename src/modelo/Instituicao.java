@@ -3,7 +3,6 @@ package modelo;
 import java.util.ArrayList;
 
 public class Instituicao {
-	// Atributos
 	private String nome;
 	private ArrayList<Professor> professores;
 	private ArrayList<Curso> cursos;
@@ -15,7 +14,6 @@ public class Instituicao {
 		}
 		professores = new ArrayList<>();
 		cursos = new ArrayList<>();
-		totalDeCursos = 0;
 	}
 	
 	// Métodos
@@ -30,11 +28,28 @@ public class Instituicao {
 	
 	public boolean adicionarProfessor(Professor professor) {
 		if (!contemProfessor(professor)) {
-			professores.add(professor);
-			return true;
+			if (professor.isCadastroAtivo()) {
+				professores.add(professor);
+				return true;
+			}
 		}
 		return false;
 	}
+	
+	public boolean trocarProfessor(Curso curso, Professor novoProfessor) {
+		if (contemCurso(curso) && contemProfessor(novoProfessor)) {
+			for (Professor professor : professores) {
+				if (professor.equals(curso.getProfessor())) {
+					professor.removerCurso(curso);
+					curso.trocarProfessor(novoProfessor);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	// TREINAR O "removerProfessor()" E O "removerCurso()". PODE SER QUE ELA PEÇA ISSO...
 	
 	public boolean criarCurso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
 		// A criação de Curso em Instuição é uma composição!
@@ -72,17 +87,29 @@ public class Instituicao {
 		}
 	}
 	
+	public Curso escolherCurso(String nome) {
+		for(Curso curso : cursos) {
+			if(curso.getNome().equals(nome)) {
+				return curso;
+			}
+		}
+		return null; //não achou
+	}
+	
 	public void exibirInformacoes() {
-		System.out.printf("--> Instituição\n\tNome: %s\n\tProfessores: { ", nome);
+		System.out.println("--> Instituição");
+		System.out.println("Nome: " + nome);
+		
+		System.out.println("Professores: { ");
 		for (Professor professor : professores) {
-			professor.exibirNome();
-			System.out.printf(" ");
-		}
-		System.out.printf("}\n\tCursos: { ");
+			System.out.printf("%s ", professor.getNome());
+		} System.out.println("}");
+		
+		System.out.println("Cursos: { ");
 		for (Curso curso : cursos) {
-			curso.exibirNome();
-			System.out.printf(" ");
-		}
-		System.out.printf("}\n\tTotal de cursos: %d\n", cursos.size());
+			System.out.printf("%s ", curso.getNome());
+		} System.out.println("}");
+		
+		System.out.println("Total de cursos: " + cursos.size());
 	}
 }

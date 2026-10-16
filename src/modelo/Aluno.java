@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 //import java.util.Set;
 
-public class Aluno extends Usuario {
+public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
 	private ArrayList<Certificado> certificados;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
@@ -20,7 +20,7 @@ public class Aluno extends Usuario {
 	private int contarInscricoesAtivas() {
 		int qtdAtivas = 0;
 		for (Inscricao inscricao : inscricoes) {
-			if (inscricao.isAtiva()) {
+			if (inscricao.isInscricaoAtiva()) {
 				qtdAtivas++;
 			}
 		}
@@ -40,10 +40,10 @@ public class Aluno extends Usuario {
 		// Verificando se já existe uma inscrição para esse curso
 		for (Inscricao inscricao : inscricoes) {
 			if (inscricao.getCurso().equals(curso)) {
-				if (inscricao.isAtiva() || inscricao.isConcluida()) {
+				if (inscricao.isInscricaoAtiva() || inscricao.isInscricaoConcluida()) {
 					return false;
 				}
-				if (inscricao.isCancelada() || inscricao.isReprovada()) {
+				if (inscricao.isInscricaoCancelada() || inscricao.isInscricaoReprovada()) {
 					inscricao.reativarInscricao();
 					return true;
 				}
@@ -59,7 +59,7 @@ public class Aluno extends Usuario {
 	public boolean cancelarInscricao(Curso curso) {
 		for (Inscricao inscricao : inscricoes) {
 			if (inscricao.getCurso().equals(curso)) {
-				if (inscricao.isAtiva()) {
+				if (inscricao.isInscricaoAtiva()) {
 					inscricao.cancelarInscricao();
 					return true;
 				}
@@ -71,7 +71,7 @@ public class Aluno extends Usuario {
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			for(Inscricao inscricao: inscricoes) {
-				if(inscricao.isAtiva()) {
+				if(inscricao.isInscricaoAtiva()) {
 					inscricao.cancelarInscricao();
 				}
 			}
@@ -81,15 +81,32 @@ public class Aluno extends Usuario {
 		return false;
 	}
 	
-	void adicionarCertificado(Certificado certificado) {
-		if(certificado != null) {
+	public StatusInscricao receberNota(Curso curso, float nota) {
+		for (Inscricao inscricao: inscricoes) {
+			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoAtiva()) {
+				StatusInscricao resultado= inscricao.fazerProva(nota);
+				if(resultado == StatusInscricao.CONCLUIDA) {
+					solicitarCertificado(curso);
+				}
+				return resultado;
+			}
+		}
+		return null; //não existe inscricao ativa nesse curso
+	}
+	
+	private boolean contemCertificado(Certificado certificado) {
+		return certificados.contains(certificado);
+	}
+	
+	public void adicionarCertificado(Certificado certificado) {
+		if(certificado != null && !contemCertificado(certificado)) {
 			certificados.add(certificado);
 		}
 	}
 	
 	boolean solicitarCertificado(Curso curso) {
 		for(Inscricao inscricao: inscricoes) {
-			if(inscricao.getCurso().equals(curso) && inscricao.isConcluida()) {
+			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoConcluida()) {
 				Certificado certificado= new Certificado(nome, curso.getNome(), curso.getCargaHorariaHoras());
 				adicionarCertificado(certificado);
 				return true;
@@ -98,9 +115,12 @@ public class Aluno extends Usuario {
 		return false;
 	}
 
-	// Ordenação da lista certificados
-	public void OrdenarCertificados() {
-		Collections.sort(certificados);
+	//ordenação e exibição da lista certificados
+	public void ListarCertificados() {
+		Collections.sort(certificados); // usa o compareTo por nome do curso
+		for(Certificado certificado: certificados) {
+			certificado.exibirCertificado();
+		}
 	}
 	
 	public void exibirInformacoes() {
@@ -111,5 +131,12 @@ public class Aluno extends Usuario {
 		System.out.println("E-mail: " + email);
 		System.out.println("Inscrições ativas: " + contarInscricoesAtivas());
 		System.out.println("Quantidade de certificados: " + certificados.size());
+	}
+	
+	
+	// Implementação da interface Notificavel
+	@Override
+	public void notificar(String mensagem) {
+		System.out.println(mensagem);
 	}
 }
