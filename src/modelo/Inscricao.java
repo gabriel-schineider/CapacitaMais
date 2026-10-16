@@ -88,7 +88,7 @@ public class Inscricao {
 	 }
 	 
 	public Certificado solicitarCertificado(String nomeALuno) {
-			 if(isInscricaoConcluida()) { //impedir que o aluno crie o mesmo certificado duas ou mais vezes
+			 if(!isInscricaoConcluida()) { //impedir que o aluno crie o mesmo certificado duas ou mais vezes
 				 return null;
 			 }
 			 if(certificado==null) {
