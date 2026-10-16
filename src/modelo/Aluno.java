@@ -18,29 +18,31 @@ public class Aluno extends Usuario {
 
 	// Métodos
 	
-	public boolean realizarInscricao(Curso curso) { // FALTA VERIFICAR OS STATUS "CANCELADA" E "DESATIVADA", POIS A REGRA DE NEGÓCIO APLICÁVEL SERÁ DIFERENTE.
+	public boolean realizarInscricao(Curso curso) {
 		if (!isCadastroAtivo()) {
 			return false;
 		}
 		if (curso == null || !curso.isAberto() || !curso.temVaga()) {
 			return false;
 		}
-		if (inscricoesAtivas == MAX_INSCRICOES_ATIVAS) {
+		if (inscricoesAtivas == MAX_INSCRICOES_ATIVAS) { // PRECISO VER A LÓGICA DE ADD INSCRIÇÃO ATIVA PARA VER SE, DE FATO, ADD SEMPRE +1 E POSSO USAR O "==" AO INVÉS DO ">=", QUE NÃO FARIA SENTIDO...
 			return false;
 		}
-
+		// Verificando se já existe uma inscrição para esse curso
 		for (Inscricao inscricao : inscricoes) {
 			if (inscricao.getCurso().equals(curso)) {
 				if (inscricao.isAtiva() || inscricao.isConcluida()) {
 					return false;
 				}
 				if (inscricao.isCancelada() || inscricao.isReprovada()) {
-					
+					inscricao.reativarInscricao();
+					return true;
 				}
 			}
 		}
-		
-		Inscricao novaInscricao= new Inscricao(curso);
+		// Criando uma nova inscrição para esse curso
+		// Isso é uma composição!
+		Inscricao novaInscricao = new Inscricao(curso);
 		inscricoes.add(novaInscricao);
 		return true;
 	}
@@ -55,6 +57,15 @@ public class Aluno extends Usuario {
 			}
 		}
 		return false;
+	}
+
+	public void inativar() {
+		cadastroAtivo= false;
+		for(Inscricao inscricao: inscricoes) {
+			if(inscricao.isAtiva()) {
+				inscricao.cancelar();
+			}
+		}
 	}
 	
 	public void adicionarCertificado(Certificado certificado) {
@@ -79,14 +90,6 @@ public class Aluno extends Usuario {
 		Collections.sort(certificados);
 	}
 	
-	public void inativar() {
-		cadastroAtivo= false;
-		for(Inscricao inscricao: inscricoes) {
-			if(inscricao.isAtiva()) {
-				inscricao.cancelar();
-			}
-		}
-	}
 	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Aluno:");

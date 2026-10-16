@@ -48,12 +48,16 @@ public class Professor extends Usuario {
 	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Professor:");
-		super.exibirInformacoes();
-		System.out.printf("\tEspecialidade: %s\n\tCursos: { ", especialidade);
+		System.out.println("Nome: " + nome);
+		System.out.println("CPF: " + cpf);
+		System.out.println("Idade: " + idade);
+		System.out.println("E-mail: " + email);
+		System.out.println("Especialidade: " + especialidade);
+		System.out.print("Cursos: { ");
 		for (Curso curso : cursos) {
 			curso.exibirNome();
 			System.out.printf(" ");
 		}
-		System.out.printf("}\n");
+		System.out.print("}\n");
 	}
 }

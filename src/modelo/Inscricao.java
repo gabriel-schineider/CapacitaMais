@@ -10,21 +10,23 @@ public class Inscricao {
 	
 	//Construtor
 	public Inscricao(Curso curso) {
-		this.curso= curso;
-		this.status= StatusInscricao.ATIVA;
+		// Isso é uma agregação!
+		this.curso = curso;
 		this.notaFinal = 0;
 		this.tentativas = 0;
+		this.status = StatusInscricao.ATIVA;
+		curso.registrarInscricaoAtiva();
 	}
 	
 	//Métodos
 	
-	public boolean validarInscricao(Curso curso) {
+/*	public boolean validarInscricao(Curso curso) {
 		if(curso!=null && curso.isAberto() && curso.temVaga()) {
 			curso.registrarInscricaoAtiva();
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	 public StatusInscricao fazerProva(float nota){
 		 if(status != StatusInscricao.ATIVA) {
@@ -53,15 +55,6 @@ public class Inscricao {
 		 return status;
 	 }
 	 
-	 public boolean cancelar() {
-		 if(status == StatusInscricao.ATIVA) {
-			 status= StatusInscricao.CANCELADA;
-			 curso.registrarTransicaoDeInscricaoAtivaParaCancelada();
-			 return true;
-		 }
-		 return false;
-	 }
-	
 	 public boolean isAtiva() {
 		 return status == StatusInscricao.ATIVA;
 	 }
@@ -78,7 +71,16 @@ public class Inscricao {
 		 return status== StatusInscricao.REPROVADA;
 	 }
 	 
-	 public boolean reativar() {
+	 public boolean cancelarInscricao() {
+		 if(status == StatusInscricao.ATIVA) {
+			 status = StatusInscricao.CANCELADA;
+			 curso.registrarTransicaoDeInscricaoAtivaParaCancelada();
+			 return true;
+		 }
+		 return false;
+	 }
+	 
+	 public boolean reativarInscricao() {
 		 if(curso.isAberto() && curso.temVaga()) {
 			 if(status == StatusInscricao.CANCELADA) {
 				 status= StatusInscricao.ATIVA;
