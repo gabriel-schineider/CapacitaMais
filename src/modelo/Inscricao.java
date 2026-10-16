@@ -10,7 +10,7 @@ public class Inscricao {
 	private static final float NOTA_MINIMA= 8.0f;
 	
 	//Construtor
-	public Inscricao(Curso curso) {
+	Inscricao(Curso curso) {
 		// Isso é uma agregação!
 		this.curso = curso;
 		this.notaFinal = 0;

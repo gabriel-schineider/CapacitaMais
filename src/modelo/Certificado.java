@@ -8,8 +8,7 @@ public class Certificado implements Comparable<Certificado> {
 	private int cargaHorariaHoras;
 	private LocalDate dataEmissao;
 	
-	// Construtor
-	public Certificado(String nomeAluno, String nomeCurso, int cargaHorariaHoras) {
+	Certificado(String nomeAluno, String nomeCurso, int cargaHorariaHoras) {
 		if (nomeAluno != null && !nomeAluno.equals("")) {
 			this.nomeAluno = nomeAluno;
 		}
@@ -20,6 +19,19 @@ public class Certificado implements Comparable<Certificado> {
 			this.cargaHorariaHoras = cargaHorariaHoras;
 		}
 		dataEmissao = LocalDate.now();
+	}
+	
+	Certificado(String nomeAluno, String nomeCurso, int cargaHorariaHoras, LocalDate dataEmissao) {
+		if (nomeAluno != null && !nomeAluno.equals("")) {
+			this.nomeAluno = nomeAluno;
+		}
+		if (nomeCurso != null && !nomeCurso.equals("")) {
+			this.nomeCurso = nomeCurso;
+		}
+		if (cargaHorariaHoras > 0) {
+			this.cargaHorariaHoras = cargaHorariaHoras;
+		}
+		this.dataEmissao = dataEmissao;
 	}
 
 	// Ordenação

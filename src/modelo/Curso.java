@@ -1,19 +1,19 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Curso {
 	private String nome;
 	private int vagas;
 	private int cargaHorariaHoras;
-	private Professor professor;
+	private ArrayList<Professor> professores;
 	private boolean aberto;
 	private int inscricoesAtivas;
 	private int inscricoesConcluidas;
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	// Construtor
 	public Curso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
 		
 		if (nome != null && !nome.equals("")) {
@@ -25,11 +25,14 @@ public class Curso {
 		if (cargaHorariaHoras > 0) {
 			this.cargaHorariaHoras = cargaHorariaHoras;	
 		}
+		
+		professores = new ArrayList<>();
 		if (professor != null) {
-			this.professor = professor;	
+			professores.add(professor);
 		}
-				
-		aberto = true;
+		
+		aberto = professores.size() == 1 ? true : false;
+			
 		inscricoesAtivas = 0;
 		inscricoesConcluidas = 0;
 		inscricoesCanceladas = 0;
@@ -52,16 +55,39 @@ public class Curso {
 		}
 	}
 	
-	void trocarProfessor(Professor professorNovo) {
-		// Vizibilidade package porque somente a Instituição deve validar e sincronizar as classes Professor e Curso. A Main não.
-		if (professorNovo != null) {
-			professor = professorNovo;	
+	private boolean contemProfessor(Professor professor) {
+		return professores.contains(professor);
+	}
+	
+	boolean adicionarProfessor(Professor professor) {
+		if (professor != null) {
+			if (!contemProfessor(professor)) {
+				professores.add(professor);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	boolean removerProfessor(Professor professor) {
+		if (professores.size() == 1) { // Não pode deixar o curso sem professor
+			return false;
+		}
+		else {
+			return professores.remove(professor);
 		}
 	}
 	
-	void removerProfessor() {
-		professor = null;
-		fecharCurso();
+	boolean trocarProfessor(Professor professorAntigo, Professor professorNovo) {
+		if (professorAntigo == null || professorNovo == null) {
+			return false;
+		}
+		if (contemProfessor(professorAntigo) && !contemProfessor(professorNovo)) {
+			adicionarProfessor(professorNovo); // Essa linha vem primeiro, pois é necessário ter pelo menos 2 professores para remover um
+			removerProfessor(professorAntigo);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean temVaga() {
@@ -85,32 +111,32 @@ public class Curso {
 		inscricoesAtivas++;
 	}
 	
-	public void registrarTransicaoDeInscricaoAtivaParaConcluida() {
+	void registrarTransicaoDeInscricaoAtivaParaConcluida() {
 		inscricoesAtivas--;
 		inscricoesConcluidas++;
 	}
 	
-	public void registrarTransicaoDeInscricaoAtivaParaCancelada() {
+	void registrarTransicaoDeInscricaoAtivaParaCancelada() {
 		inscricoesAtivas--;
 		inscricoesCanceladas++;
 	}
 	
-	public void registrarTransicaoDeInscricaoAtivaParaReprovada() {
+	void registrarTransicaoDeInscricaoAtivaParaReprovada() {
 		inscricoesAtivas--;
 		inscricoesReprovadas++;
 	}
 	
-	public void registrarTransicaoDeInscricaoCanceladaParaAtiva() {
+	void registrarTransicaoDeInscricaoCanceladaParaAtiva() {
 		inscricoesCanceladas--;
 		inscricoesAtivas++;
 	}
 	
-	public void registrarTransicaoDeInscricaoReprovadaParaAtiva() {
+	void registrarTransicaoDeInscricaoReprovadaParaAtiva() {
 		inscricoesReprovadas--;
 		inscricoesAtivas++;
 	}
 	
-	public int calcularTotalInscricoes() {
+	private int calcularTotalInscricoes() {
 		return inscricoesAtivas + inscricoesConcluidas + inscricoesCanceladas + inscricoesReprovadas;
 	}
 	
@@ -122,8 +148,8 @@ public class Curso {
 		return cargaHorariaHoras;
 	}
 	
-	public Professor getProfessor() {
-		return professor;
+	public ArrayList<Professor> getProfessor() {
+		return professores;
 	}
 	
 	public void exibirInformacoes() {
@@ -131,7 +157,12 @@ public class Curso {
 		System.out.println("Nome: " + nome);
 		System.out.println("Vagas: " + vagas);
 		System.out.println("Carga horário em horas: " + cargaHorariaHoras);
-		System.out.println("Professor: " + professor.getNome());
+		
+		System.out.print("Professores: { ");
+		for (Professor professor : professores) {
+			System.out.printf("%s ", professor.getNome());
+		} System.out.println("}");
+		
 		System.out.println("Curso aberto: " + aberto);
 		System.out.println("Total de inscrições: " + calcularTotalInscricoes());
 		System.out.println("Inscrições ativas: " + inscricoesAtivas);
