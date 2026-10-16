@@ -37,26 +37,27 @@ public class Instituicao {
 	}
 	
 	public boolean criarCurso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
-		// Isso é uma composição!
+		// A criação de Curso em Instuição é uma composição!
 		if (contemProfessor(professor)) {
 			Curso curso = new Curso(nome, vagas, cargaHorariaHoras, professor);
 			professor.adicionarCurso(curso);
-			// Sincronização bidirecional de "Professor <-> Curso" realizada acima
+			// Essa sincronização bidirecional de "Professor <-> Curso" realizada acima é uma agregação!
 			cursos.add(curso);
 			return true;
 		}
-		contemProfessor(professor) {
-			criarCurso(nome, vagas, cargaHorariaHoras);
-			return true;
+		else {
+			return criarCurso(nome, vagas, cargaHorariaHoras);
 		}
-		return false;
 	}
 	
 	public boolean criarCurso(String nome, int vagas, int cargaHorariaHoras) {
 		for (Professor professor : professores) {
 			if (professor.isCadastroAtivo())	
 				if (professor.podeReceberCurso()) {
+					// A criação de Curso em Instuição é uma composição!
 					Curso curso = new Curso(nome, vagas, cargaHorariaHoras, professor);
+					professor.adicionarCurso(curso);
+					// Essa sincronização bidirecional de "Professor <-> Curso" realizada acima é uma agregação!
 					cursos.add(curso);
 					return true;
 				}	
