@@ -34,18 +34,34 @@ public class Instituicao {
 	private boolean contemCurso(Curso curso) {
 		return cursos.contains(curso);
 	}
-	
-	public boolean adicionarCurso(Curso curso) {
-		if (!contemCurso(curso)) {
-			cursos.add(curso);
-			return true;
+
+	public boolean criarCurso(String nome, int vagas, int cargaHorariaHoras) {		
+		// Verificando se o curso já existe
+		for (Curso curso : cursos) {
+			if (curso.getNome().equals(nome)) {
+				return false;
+			}
+		}
+		// Não existe, então vamos criar
+		Curso curso = new Curso(nome, vagas, cargaHorariaHoras);
+		cursos.add(curso);
+		return true;
+	}
+
+// ACHO MELHOR NÃO FAZER ESSE MÉTODO ABAIXO E CRIAR UMA REGRA DE NEGÓCIO QUE IMPEÇA A EXCLUSÃO DE CURSOS.
+/*	public boolean excluirCurso(Curso curso) { 
+		if (contemCurso(curso)) {
+			if (curso.temProfessor()) {
+				
+			}
+			curso.fecharCurso(); // COMO FICAM AS INSCRIÇÕES ATIVAS? PRECISARIA ALTERAR TODA A LÓGICA DE ATRIBUTOS DA CLASSE INSCRIÇÃO PARA RESOLVER ISSO
 		}
 		return false;
-	}
+	}*/
 	
-	public boolean removerCurso(Curso curso) {
+/*	public boolean removerCurso(Curso curso) {
 		return removerCurso(curso);
-	}
+	}*/
 	
 	public void listarCursos() {
 		System.out.printf("--> Cursos da Instituição %s:\n", nome);
@@ -55,13 +71,21 @@ public class Instituicao {
 		}
 	}
 	
-	public Curso getCurso(String nome) {
+	public Curso getCurso(String nome) { // Serve tanto para aluno se inscrever, quanto para professor se vincular
 		for(Curso curso : cursos) {
 			if(curso.getNome().equals(nome)) {
 				return curso;
 			}
 		}
 		return null; //não achou
+	}
+	
+	public void listarProfessores() {
+		System.out.printf("--> Professores da Instituição %s:\n", nome);
+		for (Professor professor : professores) {
+			professor.exibirInformacoes();
+			System.out.println("--------------------------------");
+		}
 	}
 	
 	public void exibirInformacoes() {

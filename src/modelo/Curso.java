@@ -14,7 +14,7 @@ public class Curso {
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	public Curso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
+	Curso(String nome, int vagas, int cargaHorariaHoras, Professor professor) {
 		
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
@@ -32,6 +32,28 @@ public class Curso {
 		}
 		
 		aberto = professores.size() == 1 ? true : false;
+			
+		inscricoesAtivas = 0;
+		inscricoesConcluidas = 0;
+		inscricoesCanceladas = 0;
+		inscricoesReprovadas = 0;
+	}
+	
+	public Curso(String nome, int vagas, int cargaHorariaHoras) {
+		
+		if (nome != null && !nome.equals("")) {
+			this.nome = nome;
+		}
+		if (vagas > 0) {
+			this.vagas = vagas;	
+		}
+		if (cargaHorariaHoras > 0) {
+			this.cargaHorariaHoras = cargaHorariaHoras;	
+		}
+		
+		professores = new ArrayList<>();
+		
+		aberto = false;
 			
 		inscricoesAtivas = 0;
 		inscricoesConcluidas = 0;
@@ -85,6 +107,13 @@ public class Curso {
 		if (contemProfessor(professorAntigo) && !contemProfessor(professorNovo)) {
 			adicionarProfessor(professorNovo); // Essa linha vem primeiro, pois é necessário ter pelo menos 2 professores para remover um
 			removerProfessor(professorAntigo);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean temProfessor() {
+		if (professores.size() > 0) {
 			return true;
 		}
 		return false;
@@ -152,7 +181,7 @@ public class Curso {
 		return professores;
 	}
 	
-	public void exibirInformacoes() {
+	void exibirInformacoes() {
 		System.out.println("--> Curso:");
 		System.out.println("Nome: " + nome);
 		System.out.println("Vagas: " + vagas);

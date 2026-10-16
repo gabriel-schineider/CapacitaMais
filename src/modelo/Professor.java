@@ -14,18 +14,18 @@ public class Professor extends Usuario implements Notificavel{
 		cursos = new ArrayList<Curso>(LIMITE_CURSOS);
 	}
 	
-	boolean podeReceberCurso() {
+	private boolean podeReceberCurso() {
 		if (cursos.size() < LIMITE_CURSOS) {
 			return true;
 		}
 		return false;
 	}
 	
-	boolean contemCurso(Curso curso) {
+	private boolean contemCurso(Curso curso) {
 		return cursos.contains(curso);
 	}
 	
-	boolean adicionarCurso(Curso curso) {
+	public boolean adicionarCurso(Curso curso) {
 		if (podeReceberCurso()) {
 			if (!contemCurso(curso)) {
 				cursos.add(curso);
@@ -36,7 +36,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	boolean removerCurso(Curso curso) {
+	public boolean removerCurso(Curso curso) {
 		if (contemCurso(curso)) {
 			if (curso.removerProfessor(this)) { // Verificar se foi possível remover o professor lá no curso
 				cursos.remove(curso); // Removendo o curso aqui no professor
@@ -46,7 +46,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	boolean trocarCurso(Curso cursoAntigo, Curso cursoNovo) {
+	public boolean trocarCurso(Curso cursoAntigo, Curso cursoNovo) {
 		if (cursoAntigo != null && cursoNovo != null) {
 			if (contemCurso(cursoAntigo) && !contemCurso(cursoNovo)) {
 				if (removerCurso(cursoAntigo) == true) { // Verificando se foi possível remover o professor do curso antigo
