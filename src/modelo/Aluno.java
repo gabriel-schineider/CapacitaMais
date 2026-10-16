@@ -1,19 +1,20 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
+//import java.util.Set;
 
 public class Aluno extends Usuario {
-	private Set<Inscricao> inscricoes;
-	private Set<Certificado> certificados;
+	private ArrayList<Inscricao> inscricoes;
+	private ArrayList<Certificado> certificados;
 	private int inscricoesAtivas;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
 
 	// Construtor
 	public Aluno(String nome, String cpf, int idade, String email) {
 		super(nome, cpf, idade, email);
-		inscricoes = new Set<Inscricao>();
-		certificados = new Set<Certificado>();
+		inscricoes = new ArrayList<Inscricao>();
+		certificados = new ArrayList<Certificado>();
 	}
 
 	// Métodos
@@ -36,6 +37,7 @@ public class Aluno extends Usuario {
 				}
 				if (inscricao.isCancelada() || inscricao.isReprovada()) {
 					inscricao.reativarInscricao();
+					inscricoesAtivas++;
 					return true;
 				}
 			}
@@ -44,6 +46,7 @@ public class Aluno extends Usuario {
 		// Isso é uma composição!
 		Inscricao novaInscricao = new Inscricao(curso);
 		inscricoes.add(novaInscricao);
+		inscricoesAtivas++;
 		return true;
 	}
 	
@@ -51,7 +54,8 @@ public class Aluno extends Usuario {
 		for (Inscricao inscricao : inscricoes) {
 			if (inscricao.getCurso().equals(curso)) {
 				if (inscricao.isAtiva()) {
-					inscricao.cancelar();
+					inscricao.cancelarInscricao();
+					inscricoesAtivas--;
 					return true;
 				}
 			}
@@ -59,12 +63,15 @@ public class Aluno extends Usuario {
 		return false;
 	}
 
-	public void inativar() {
-		cadastroAtivo= false;
-		for(Inscricao inscricao: inscricoes) {
-			if(inscricao.isAtiva()) {
-				inscricao.cancelar();
+	public void desativarCadastro() {
+		if(cadastroAtivo) {
+			for(Inscricao inscricao: inscricoes) {
+				if(inscricao.isAtiva()) {
+					inscricao.cancelarInscricao();
+					inscricoesAtivas--;
+				}
 			}
+			cadastroAtivo = false;
 		}
 	}
 	
