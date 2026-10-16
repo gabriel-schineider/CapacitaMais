@@ -64,6 +64,19 @@ public class Aluno extends Usuario implements Notificavel{
 		}
 		return false;
 	}
+
+	public StatusInscricao receberNota(Curso curso, float nota) {
+		for (Inscricao inscricao: inscricoes) {
+			if(inscricao.getCurso().equals(curso) && inscricao.isAtiva()) {
+				StatusInscricao resultado= inscricao.fazerProva(nota);
+				if(resultado == StatusInscricao.CONCLUIDA) {
+					solicitarCertificado(curso);
+				}
+				return resultado;
+			}
+		}
+		return null; //não existe inscricao ativa nesse curso
+	}
 	
 	public void adicionarCertificado(Certificado certificado) {
 		if(certificado != null && !certificados.contains(certificado)) {
@@ -82,9 +95,12 @@ public class Aluno extends Usuario implements Notificavel{
 		return false;
 	}
 
-	//ordenação da lista certificados
-	public void OrdenarCertificados() {
-		Collections.sort(certificados);
+	//ordenação e exibição da lista certificados
+	public void ListarCertificados() {
+		Collections.sort(certificados); // usa o compareTo por nome do curso
+		for(Certificado certificado: certificados) {
+			certificado.exibirCertificado();
+		}
 	}
 	
 	public void inativar() {
