@@ -48,6 +48,16 @@ public class Instituicao {
 		}
 		return false;
 	}
+
+    public Curso escolherCurso(String nome) {
+			for(Curso curso: cursos) {
+				if(curso.getNome().equals(nome)) {
+					return curso;
+				}
+			}
+			return null; //não achou
+	}
+
 	public void listarCursos() {
 		System.out.printf("--> Cursos da Instituição %s:\n", nome);
 		for (Curso curso : cursos) {
