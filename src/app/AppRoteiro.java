@@ -70,7 +70,7 @@ public class AppRoteiro {
 		//alunoCamilo.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
 
-		
+		//
 		System.out.println("\n\nFim dos testes...");
 	}
 }
