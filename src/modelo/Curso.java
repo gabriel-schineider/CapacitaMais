@@ -142,7 +142,7 @@ public class Curso {
 		System.out.println("Nome: " + nome);
 		System.out.println("Área: " + area);
 		System.out.println("Vagas: " + vagas);
-		System.out.println("Carga horário em horas: " + cargaHorariaHoras);
+		System.out.println("Carga horária em horas: " + cargaHorariaHoras);
 		
 		System.out.print("Professores: { ");
 		for (Professor professor : professores) {
