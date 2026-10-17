@@ -119,6 +119,10 @@ public class Comunidade implements Notificavel {
 		return artigos.size();
 	}
 	
+	String getNome() {
+		return nome;
+	}
+	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Comunidade");
 		System.out.println("Área: " + area);

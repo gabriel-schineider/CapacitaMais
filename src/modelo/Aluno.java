@@ -155,8 +155,20 @@ public class Aluno extends Usuario implements Notificavel{
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);
 		System.out.println("E-mail: " + email);
-		System.out.println("Inscrições ativas: " + contarInscricoesAtivas());
 		System.out.println("Quantidade de certificados: " + certificados.size());
+		System.out.println("Inscrições ativas: " + contarInscricoesAtivas());
+		
+		System.out.print("Cursos que está fazendo: { ");
+		for (Inscricao inscricao : inscricoes) {
+			if (inscricao.isInscricaoAtiva()) {
+				System.out.printf("%s ", inscricao.getCurso().getNome());
+			}
+		} System.out.println("}");
+		
+		System.out.print("Comunidades que participa: { ");
+		for (Comunidade comunidade : comunidades) {
+			System.out.printf("%s ", comunidade.getNome());
+		} System.out.println("}");
 	}
 	
 	@Override

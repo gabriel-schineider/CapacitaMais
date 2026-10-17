@@ -47,30 +47,52 @@ public class AppRoteiro {
 		
 		System.out.println("\nAdicionando professor à comunidade...");
 		professorXavier.adicionarComunidade(comunidadeCientificaJuridica);
-		//professorXavier.exibirInformacoes();
+		professorXavier.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
 
 		System.out.println("\nAdicionando aluno à comunidade...");
 		alunoCamilo.adicionarComunidade(comunidadeCientificaJuridica);
-		//alunoCamilo.exibirInformacoes();
+		alunoCamilo.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
 		
-		System.out.println("\nNotificações na comunidade...");
+		System.out.println("\nDisparando notificações...");
+		comunidadeCientificaJuridica.notificar("O que estão achando da nossa comunidade?");
 		professorXavier.notificar("Essa é uma comunidade interessante!");
 		alunoCamilo.notificar("Realmente, é bem curiosa!");
 		comunidadeCientificaJuridica.notificar("Pedimos tristemente que saiam da comunidade, pois ela será descontinuada.");
 		
 		System.out.println("\nRemovendo professor de comunidade...");
 		professorXavier.removerComunidade(comunidadeCientificaJuridica);
-		//professorXavier.exibirInformacoes();
+		professorXavier.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
 
 		System.out.println("\nRemovendo aluno da comunidade...");
 		alunoCamilo.removerComunidade(comunidadeCientificaJuridica);
-		//alunoCamilo.exibirInformacoes();
+		alunoCamilo.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
-
+		
+		//System.out.println("\nTestando a dinâmica de provas...");
 		//
+		//
+		//
+		//System.out.println("\nTestando a dinâmica de certificados...");
+		//
+		//
+		//
+		
+		//System.out.println("\nCriando uma Adm...");
+		//
+		//
+		//System.out.println("\nAdicionando usuarios ao escopo dessa Adm...");
+		//
+		//
+		//System.out.println("\nExibindo as infomrações de todos os usuarios...");
+		//
+		//
+		//System.out.println("\nDesativando o cadastro de todos os usuarios...");
+		//
+		//
+		
 		System.out.println("\n\nFim dos testes...");
 	}
 }

@@ -113,9 +113,14 @@ public class Professor extends Usuario implements Notificavel{
 		System.out.println("E-mail: " + email);
 		System.out.println("Área: " + area);
 		
-		System.out.print("Cursos: { ");
+		System.out.print("Cursos que leciona: { ");
 		for (Curso curso : cursos) {
 			System.out.printf("%s ", curso.getNome());
+		} System.out.println("}");
+		
+		System.out.print("Comunidades que participa: { ");
+		for (Comunidade comunidade : comunidades) {
+			System.out.printf("%s ", comunidade.getNome());
 		} System.out.println("}");
 	}
 	
