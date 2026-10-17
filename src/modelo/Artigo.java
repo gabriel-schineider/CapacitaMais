@@ -10,7 +10,7 @@ public class Artigo {
 		if (titulo != null && !titulo.equals("")) {
 			this.titulo = titulo;
 		}
-		if (titulo != null && !conteudo.equals("")) {
+		if (conteudo != null && !conteudo.equals("")) {
 			this.conteudo = conteudo;
 		}
 	}

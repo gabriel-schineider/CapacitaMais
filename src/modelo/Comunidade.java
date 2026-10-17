@@ -21,8 +21,11 @@ public class Comunidade implements Notificavel {
 	}
 
 	public boolean criarArtigo(String titulo, String conteudo) {
+		if (titulo == null || titulo.equals("")) {
+			return false;
+		}
 		for (Artigo artigo : artigos) { // Verificando se já existe algum artigo igual (com o mesmo título)
-			if (artigo.getTitulo().equals(titulo)) {
+			if (titulo.equals(artigo.getTitulo())) {
 				return false;
 			}
 		}
@@ -52,7 +55,7 @@ public class Comunidade implements Notificavel {
 			System.out.println("Nenhum artigo disponíveis no momento.");
 		} else {			
 			for (Artigo artigo : artigos) {
-				if (artigo.getTitulo().equals(titulo)) {
+				if (titulo.equals(artigo.getTitulo())) {
 					artigo.exibirArtigo();
 					return;
 				}
@@ -63,7 +66,7 @@ public class Comunidade implements Notificavel {
 	
 	public boolean excluirArtigo(String titulo) {
 		for (Artigo artigo : artigos) {
-			if (artigo.getTitulo().equals(titulo)) {
+			if (titulo.equals(artigo.getTitulo())) {
 				artigos.remove(artigo);
 				return true;
 			}
@@ -71,22 +74,27 @@ public class Comunidade implements Notificavel {
 		return false;
 	}
 	
-	private boolean contemArtigo(Artigo artigo) {
-		return artigos.contains(artigo);
-	}
-	
-	public boolean alterarArtigoTitulo(Artigo artigo, String titulo) {
-		if (contemArtigo(artigo)) {			
-			artigo.mudarTitulo(titulo);
-			return true;
+	public boolean alterarArtigoTitulo(String tituloAntigo, String tituloNovo) {
+		for (Artigo artigo : artigos) { // Verificando se já existe um título desse na comunidade
+			if (tituloNovo.equals(artigo.getTitulo())) {
+				return false;
+			}
+		}
+		for (Artigo artigo : artigos) {
+			if (tituloAntigo.equals(artigo.getTitulo())) {
+				artigo.mudarConteudo(tituloNovo);
+				return true;
+			}
 		}
 		return false;
 	}
 	
-	public boolean alterarArtigoConteudo(Artigo artigo, String conteudo) {
-		if (contemArtigo(artigo)) {			
-			artigo.mudarConteudo(conteudo);
-			return true;
+	public boolean alterarArtigoConteudo(String titulo, String conteudoNovo) {
+		for (Artigo artigo : artigos) {
+			if (titulo.equals(artigo.getTitulo())) {
+				artigo.mudarConteudo(conteudoNovo);
+				return true;
+			}
 		}
 		return false;
 	}

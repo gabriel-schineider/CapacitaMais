@@ -83,7 +83,7 @@ public class Curso {
 	}
 	
 	public void alterarNumeroVagas(int vagasNovo) {
-		if (vagasNovo >= inscricoesAtivas) {
+		if (vagasNovo > 0 && vagasNovo >= inscricoesAtivas) {
 			vagas = vagasNovo;
 		}
 	}
@@ -159,7 +159,7 @@ public class Curso {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(area, cargaHorariaHoras, nome, professores);
+		return Objects.hash(area, nome);
 	}
 
 	@Override
@@ -171,7 +171,8 @@ public class Curso {
 		if (getClass() != obj.getClass())
 			return false;
 		Curso other = (Curso) obj;
-		return area == other.area && cargaHorariaHoras == other.cargaHorariaHoras && Objects.equals(nome, other.nome)
-				&& Objects.equals(professores, other.professores);
+		return area == other.area && Objects.equals(nome, other.nome);
 	}
+
+	
 }

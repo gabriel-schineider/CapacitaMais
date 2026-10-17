@@ -31,9 +31,10 @@ public class Professor extends Usuario implements Notificavel{
 	public boolean adicionarCurso(Curso curso) {
 		if (cadastroAtivo && podeReceberCurso()) {
 			if (curso != null && !contemCurso(curso)) {
+				boolean cursoNaoTinhaProfessor = !curso.temProfessor();
 				cursos.add(curso);
 				curso.adicionarProfessor(this);
-				if (!curso.isAberto()) {
+				if (cursoNaoTinhaProfessor) {
 					curso.abrirCurso();
 				}
 				return true;
@@ -59,10 +60,12 @@ public class Professor extends Usuario implements Notificavel{
 	}
 	
 	public boolean adicionarComunidade(Comunidade comunidade) {
-		if (comunidade != null && !contemComunidade(comunidade)) {
-			comunidades.add(comunidade);
-			comunidade.adicionarProfessor();
-			return true;
+		if(cadastroAtivo) {
+			if (comunidade != null && !contemComunidade(comunidade)) {
+				comunidades.add(comunidade);
+				comunidade.adicionarProfessor();
+				return true;
+			}			
 		}
 		return false;
 	}
@@ -78,13 +81,11 @@ public class Professor extends Usuario implements Notificavel{
 	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
-			ArrayList<Comunidade> comunidadesCopia = comunidades;
-			for (Comunidade comunidade : comunidadesCopia) {
+			for (Comunidade comunidade : new ArrayList<>(comunidades)) {
 				comunidade.removerProfessor();
 				comunidades.remove(comunidade);
 			}
-			ArrayList<Curso> cursosCopia = cursos;
-			for (Curso curso : cursosCopia) {
+			for (Curso curso : new ArrayList<>(cursos)) {
 				curso.removerProfessor(this);
 				cursos.remove(curso);
 			}

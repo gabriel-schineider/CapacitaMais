@@ -114,10 +114,12 @@ public class Aluno extends Usuario implements Notificavel{
 	}
 	
 	public boolean adicionarComunidade(Comunidade comunidade) {
-		if (comunidade != null && !contemComunidade(comunidade)) {
-			comunidades.add(comunidade);
-			comunidade.adicionarAluno();
-			return true;
+		if (cadastroAtivo) {
+			if (comunidade != null && !contemComunidade(comunidade)) {
+				comunidades.add(comunidade);
+				comunidade.adicionarAluno();
+				return true;
+			}		
 		}
 		return false;
 	}
@@ -133,8 +135,7 @@ public class Aluno extends Usuario implements Notificavel{
 	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
-			ArrayList<Comunidade> comunidadesCopia = comunidades;
-			for(Comunidade comunidade : comunidadesCopia) {
+			for(Comunidade comunidade : new ArrayList<>(comunidades)) {
 				comunidade.removerAluno();
 				comunidades.remove(comunidade);
 			}
