@@ -95,13 +95,6 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {
-		if(aluno== null || !contemCurso(curso)) {
-			return null; //professor só pode lançar notas no curso dele
-		}
-		return aluno.receberNota(curso, nota);
-	}
-	
 	public String getNome() {
 		return nome;
 	}

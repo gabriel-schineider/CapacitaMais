@@ -40,7 +40,7 @@ public class Curso {
 		inscricoesReprovadas = 0;
 	}
 	
-	boolean isAberto() {
+	public boolean isAberto() {
 		return aberto;
 	}
 
@@ -88,10 +88,6 @@ public class Curso {
 		}
 	}
 	
-	public float aplicarProva(float nota) {
-		return nota;
-	}
-	
 	void registrarInscricaoAtiva() {
 		inscricoesAtivas++;
 	}
@@ -133,10 +129,6 @@ public class Curso {
 		return cargaHorariaHoras;
 	}
 	
-/*	ArrayList<Professor> getProfessores() {
-		return professores;
-	}*/
-	
 	public void exibirInformacoes() {
 		System.out.println("--> Informações de Curso");
 		System.out.println("Nome: " + nome);
@@ -173,6 +165,4 @@ public class Curso {
 		Curso other = (Curso) obj;
 		return area == other.area && Objects.equals(nome, other.nome);
 	}
-
-	
 }

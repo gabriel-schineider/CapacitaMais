@@ -7,14 +7,14 @@ import java.util.Collections;
 public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
-	private ArrayList<Certificado> certificados;
 	private ArrayList<Comunidade> comunidades;
+	private ArrayList<Certificado> certificados;
 
 	public Aluno(String nome, String cpf, int idade, String email) {
 		super(nome, cpf, idade, email);
-		inscricoes = new ArrayList<Inscricao>();
-		certificados = new ArrayList<Certificado>();
-		comunidades = new ArrayList<Comunidade>();
+		inscricoes = new ArrayList<>();
+		comunidades = new ArrayList<>();
+		certificados = new ArrayList<>();
 	}
 
 	private int contarInscricoesAtivas() {
@@ -39,7 +39,7 @@ public class Aluno extends Usuario implements Notificavel{
 		}
 		// Verificando se já existe uma inscrição para esse curso
 		for (Inscricao inscricao : inscricoes) {
-			if (inscricao.getCurso().equals(curso)) {
+			if (curso.equals(inscricao.getCurso())) {
 				if (inscricao.isInscricaoAtiva() || inscricao.isInscricaoConcluida()) {
 					return false;
 				}
@@ -66,45 +66,45 @@ public class Aluno extends Usuario implements Notificavel{
 		}
 		return false;
 	}
-
-	public StatusInscricao receberNota(Curso curso, float nota) {
-		for (Inscricao inscricao: inscricoes) {
-			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoAtiva()) {
-				StatusInscricao resultado= inscricao.fazerProva(nota);
-				if(resultado == StatusInscricao.CONCLUIDA) {
-					solicitarCertificado(curso);
+	
+	public void assistirCurso(Curso curso, int qtdHorasAssistidas) {
+		if (qtdHorasAssistidas > 0) {
+			for (Inscricao inscricao : inscricoes) {
+				if (curso.equals(inscricao.getCurso())) {
+					inscricao.assistirCurso(qtdHorasAssistidas);
 				}
-				return resultado;
 			}
 		}
-		return null; //não existe inscricao ativa nesse curso
 	}
 	
 	private boolean contemCertificado(Certificado certificado) {
 		return certificados.contains(certificado);
 	}
 	
-	public void adicionarCertificado(Certificado certificado) {
-		if(certificado != null && !contemCertificado(certificado)) {
-			certificados.add(certificado);
-		}
-	}
-	
-	boolean solicitarCertificado(Curso curso) {
+	public boolean solicitarCertificado(Curso curso) {
 		for(Inscricao inscricao: inscricoes) {
-			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoConcluida()) {
-				Certificado certificado= inscricao.solicitarCertificado(this.nome);
-				adicionarCertificado(certificado);
-				return true;
+			if(curso.equals(inscricao.getCurso()) && inscricao.isInscricaoConcluida()) {
+				Certificado certificado = inscricao.solicitarCertificado(this.nome);
+				return adicionarCertificado(certificado);	
 			}
 		}
 		return false;
 	}
+	private boolean adicionarCertificado(Certificado certificado) {
+		if(certificado != null && !contemCertificado(certificado)) {
+			certificados.add(certificado);
+			return true;
+		}
+		return false;
+	}
 
-	//ordenação e exibição da lista certificados
-	public void ListarCertificados() {
+	public void ListarCertificados() { // ordenação e exibição da lista certificados
 		Collections.sort(certificados); // usa o compareTo por nome do curso
+		int contador = 1;
+		System.out.println("--> Certificados da " + nome);
 		for(Certificado certificado: certificados) {
+			System.out.printf("%d. ", contador);
+			contador++;
 			certificado.exibirCertificado();
 		}
 	}
@@ -135,15 +135,16 @@ public class Aluno extends Usuario implements Notificavel{
 	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
-			for(Comunidade comunidade : new ArrayList<>(comunidades)) {
-				comunidade.removerAluno();
-				comunidades.remove(comunidade);
-			}
 			for(Inscricao inscricao: inscricoes) {
 				if(inscricao.isInscricaoAtiva()) {
 					inscricao.cancelarInscricao();
 				}
 			}
+			for(Comunidade comunidade : new ArrayList<>(comunidades)) {
+				comunidade.removerAluno();
+				comunidades.remove(comunidade);
+			}
+			// Certificados continuam armazenados
 			cadastroAtivo = false;
 			return true;
 		}

@@ -7,54 +7,54 @@ public class AppRoteiro {
 		
 		System.out.println("\nCriando curso...");
 		Curso cursoProgramacao = new Curso("Programação 101", Area.TECNOLOGIA, 10, 20);
-		cursoProgramacao.exibirInformacoes();
+		//cursoProgramacao.exibirInformacoes();
 		
 		System.out.println("\nCriando professor...");
 		Professor professorXavier= new Professor("Xavier", "000.000.000-00", 30, "x@uerj.br", Area.TECNOLOGIA);
-		professorXavier.exibirInformacoes();
+		//professorXavier.exibirInformacoes();
 		
 		System.out.println("\nAdicionando curso ao professor e, consequentemente, professor ao curso...");
 		professorXavier.adicionarCurso(cursoProgramacao);
-		cursoProgramacao.exibirInformacoes();
-		professorXavier.exibirInformacoes();
+		//cursoProgramacao.exibirInformacoes();
+		//professorXavier.exibirInformacoes();
 		
 		System.out.println("\nCriando aluno...");
 		Aluno alunoCamilo = new Aluno("Camilo", "999.999.999-99", 25, "c@cmail.com");
-		alunoCamilo.exibirInformacoes();
+		//alunoCamilo.exibirInformacoes();
 		
 		System.out.println("\nAbrindo o curso...");
 		cursoProgramacao.abrirCurso();
 		
 		System.out.println("\nAdicionando aluno ao curso...");
 		alunoCamilo.realizarInscricao(cursoProgramacao);
-		alunoCamilo.exibirInformacoes();
-		cursoProgramacao.exibirInformacoes();
+		//alunoCamilo.exibirInformacoes();
+		//cursoProgramacao.exibirInformacoes();
 		
 		System.out.println("\nCriando comunidade...");
 		Comunidade comunidadeCientificaJuridica = new Comunidade(Area.DIREITO, "Jurídicos da Ciência");
-		comunidadeCientificaJuridica.exibirInformacoes();
+		//comunidadeCientificaJuridica.exibirInformacoes();
 		
 		System.out.println("\nCriando artigos na comunidade...");
 		comunidadeCientificaJuridica.criarArtigo("Importância dos direitos humanos", "Os direitos humanos são muito importantes, mas não se esqueçam que a natureza também tem direitos e isso se extende para os animais.");
 		comunidadeCientificaJuridica.criarArtigo("Vida e sociedade", "Estudem filosofia e sociologia. São temas importantes.");
-		comunidadeCientificaJuridica.exibirInformacoes();
+		//comunidadeCientificaJuridica.exibirInformacoes();
 		
 		System.out.println("\nListando os artigos criados...");
-		comunidadeCientificaJuridica.listarTituloDeArtigos();
+		//comunidadeCientificaJuridica.listarTituloDeArtigos();
 		
 		System.out.println("\nEscolhendo um artigo para ler...");
-		comunidadeCientificaJuridica.buscarArtigo("Vida e sociedade");
+		//comunidadeCientificaJuridica.buscarArtigo("Vida e sociedade");
 		
 		System.out.println("\nAdicionando professor à comunidade...");
 		professorXavier.adicionarComunidade(comunidadeCientificaJuridica);
-		professorXavier.exibirInformacoes();
-		comunidadeCientificaJuridica.exibirInformacoes();
+		//professorXavier.exibirInformacoes();
+		//comunidadeCientificaJuridica.exibirInformacoes();
 
 		System.out.println("\nAdicionando aluno à comunidade...");
 		alunoCamilo.adicionarComunidade(comunidadeCientificaJuridica);
-		alunoCamilo.exibirInformacoes();
-		comunidadeCientificaJuridica.exibirInformacoes();
-		
+		//alunoCamilo.exibirInformacoes();
+		//comunidadeCientificaJuridica.exibirInformacoes();
+		/*
 		System.out.println("\nDisparando notificações...");
 		comunidadeCientificaJuridica.notificar("O que estão achando da nossa comunidade?");
 		professorXavier.notificar("Essa é uma comunidade interessante!");
@@ -65,33 +65,51 @@ public class AppRoteiro {
 		professorXavier.removerComunidade(comunidadeCientificaJuridica);
 		professorXavier.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
-
+		
 		System.out.println("\nRemovendo aluno da comunidade...");
 		alunoCamilo.removerComunidade(comunidadeCientificaJuridica);
 		alunoCamilo.exibirInformacoes();
 		comunidadeCientificaJuridica.exibirInformacoes();
+		*/
+		System.out.println("\nTestando a dinâmica de assistir curso e solicitar certificado...");
+		Aluno alunaKeyla = new Aluno("Keyla", "888.888.888-88", 27, "k@kmail.org");
+		Curso cursoEmpreendedorismo = new Curso("Empreendedorismo inovador", Area.EMPREENDEDORISMO, 2, 10);
+		Professor professoraTatiana = new Professor("Tatiana", "111.111.111-11", 35, "t@uff.br", Area.EMPREENDEDORISMO);
+		professoraTatiana.adicionarCurso(cursoEmpreendedorismo);
+		alunaKeyla.realizarInscricao(cursoEmpreendedorismo);
+		alunaKeyla.assistirCurso(cursoEmpreendedorismo, 5);
+		System.out.println("\n**Conseguiu solicitar o certificado?" + alunaKeyla.solicitarCertificado(cursoEmpreendedorismo));
+		alunaKeyla.exibirInformacoes();
+		alunaKeyla.assistirCurso(cursoEmpreendedorismo, 15);
+		System.out.println("\n**Conseguiu solicitar o certificado?" + alunaKeyla.solicitarCertificado(cursoEmpreendedorismo));
+		alunaKeyla.exibirInformacoes();
+		alunaKeyla.ListarCertificados();
+		System.out.println("\nPegando mais um certificado...");
+		alunaKeyla.realizarInscricao(cursoProgramacao);
+		alunaKeyla.assistirCurso(cursoProgramacao, 20);
+		alunaKeyla.solicitarCertificado(cursoProgramacao);
+		alunaKeyla.ListarCertificados();
 		
-		//System.out.println("\nTestando a dinâmica de provas...");
-		//
-		//
-		//
-		//System.out.println("\nTestando a dinâmica de certificados...");
-		//
-		//
-		//
-		
-		//System.out.println("\nCriando uma Adm...");
-		//
-		//
-		//System.out.println("\nAdicionando usuarios ao escopo dessa Adm...");
-		//
-		//
-		//System.out.println("\nExibindo as infomrações de todos os usuarios...");
-		//
-		//
-		//System.out.println("\nDesativando o cadastro de todos os usuarios...");
-		//
-		//
+		System.out.println("\nCriando uma Adm...");
+		Administradora admKarol = new Administradora("Karol");
+		System.out.println("\nAdicionando usuarios ao escopo dessa Adm...");
+		admKarol.adicionarUsuario(professorXavier);
+		admKarol.adicionarUsuario(professoraTatiana);
+		admKarol.adicionarUsuario(alunoCamilo);
+		admKarol.adicionarUsuario(alunaKeyla);
+		System.out.println("\nExibindo as informações de todos os usuarios dessa Adm...");
+		admKarol.exibirInformacoes();
+		admKarol.exibirInformacoesDosUsuarios();
+		System.out.println("\nDesativando o cadastro de todos os usuarios...");
+		admKarol.desativarUsuarios();
+		System.out.println("\nVerificando se foi tudo desativado...");
+		professorXavier.exibirInformacoes();
+		professoraTatiana.exibirInformacoes();
+		alunoCamilo.exibirInformacoes();
+		alunaKeyla.exibirInformacoes();
+		cursoProgramacao.exibirInformacoes();
+		cursoEmpreendedorismo.exibirInformacoes();
+		comunidadeCientificaJuridica.exibirInformacoes();
 		
 		System.out.println("\n\nFim dos testes...");
 	}

@@ -26,8 +26,7 @@ public class Administradora {
 	 }
 		 
 	 public void desativarUsuarios() {
-		 ArrayList<Usuario> usuariosCopia = usuarios;
-		 for (Usuario usuario : usuariosCopia) {
+		 for (Usuario usuario : usuarios) {
 			 usuario.desativarCadastro();
 		 }
 	 }

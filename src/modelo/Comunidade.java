@@ -82,7 +82,7 @@ public class Comunidade implements Notificavel {
 		}
 		for (Artigo artigo : artigos) {
 			if (tituloAntigo.equals(artigo.getTitulo())) {
-				artigo.mudarConteudo(tituloNovo);
+				artigo.mudarTitulo(tituloNovo);
 				return true;
 			}
 		}
