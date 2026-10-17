@@ -26,9 +26,8 @@ public class Administradora {
 	 }
 		 
 	 public void desativarUsuarios() {
-		 ArrayList<Usuario> usuariosCopia = usuarios;
-		 for (Usuario usuario : usuariosCopia) {
-			 usuario.desativarCadastro();
+		 for (Usuario usuario : usuarios) {
+			 usuario.desativarCadastro(); //nao precisa de copia pq nao altera a lista, só desativa
 		 }
 	 }
 	 
