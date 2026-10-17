@@ -42,7 +42,7 @@ public class Certificado implements Comparable<Certificado> {
 	
 	public void exibirCertificado() {
 		System.out.println("--> Certificado de conclusão de curso");
-		System.out.printf("Certificamos que %s concluiu o curso %s de carga horária equivalente à %d horas no dia %s.\n", nomeAluno, nomeCurso, cargaHorariaHoras, dataEmissao);
+		System.out.printf("Certificamos que %s concluiu o curso %s de carga horária equivalente a %d horas no dia %s.\n", nomeAluno, nomeCurso, cargaHorariaHoras, dataEmissao);
 		System.out.println("\nAssinatura:  Capacita+\n\t    -----------");
 	}
 }
