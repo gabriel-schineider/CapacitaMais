@@ -4,151 +4,109 @@ import modelo.*;
 
 public class AppRoteiro {
 	public static void main(String[] args) {
+		System.out.println("\n Criando 6 cursos diferentes...");
+		Curso cursoA = new Curso("A", Area.ADMINISTRACAO, 10);
+		Curso cursoB = new Curso("B", Area.TECNOLOGIA, 20);
+		Curso cursoC = new Curso("C", Area.FINANCAS, 15);
+		Curso cursoD = new Curso("D", Area.LOGISTICA, 10);
+		Curso cursoE = new Curso("E", Area.PSICOLOGIA, 15);
+		Curso cursoF = new Curso("F", Area.MARKETING, 10);
 		
-
+		System.out.println("\n Criando 2 professores diferentes...");
+		Professor professorA = new Professor("Professor A", "000.000.000-00", 40, "professorA@uerj.br", Area.EMPREENDEDORISMO);
+		Professor professorB = new Professor("Professor B", "111.111.111-11", 37, "professorB@uerj.br", Area.TECNOLOGIA);
+		
+		System.out.println("\n Criando 2 alunos diferentes...");
+		Aluno alunoA = new Aluno("Aluno A", "222.222.222-22", 20, "alunoA@graduacao.uerj.br");
+		Aluno alunoB = new Aluno("Aluno B", "333.333.333-33", 20, "alunoB@graduacao.uerj.br");
+		
+		System.out.println("\n Criando 1 adm...");
+		Administradora adm = new Administradora("adm");
+		
+		System.out.println("\n Adicionando 2 usuários (1 professor e 1 aluno) ao escopo da adm...");
+		adm.adicionarUsuario(professorA);
+		adm.adicionarUsuario(alunoA);
+		
+		System.out.println("\n Exibindo as informações dos usuários da adm...");
+		//adm.exibirInformacoesDosUsuarios(); // Polimorfismo
+		
+		System.out.println("\n Professores adicionando cursos (cursos sincronizam a adição de professores)...");
+		professorA.adicionarCurso(cursoA);
+		professorA.adicionarCurso(cursoB);
+		professorA.adicionarCurso(cursoC);
+		professorA.adicionarCurso(cursoD);
+		professorA.adicionarCurso(cursoE);
+		professorA.adicionarCurso(cursoF); // Vai falhar, pois excede o limite de cursos
+		professorB.adicionarCurso(cursoA);
+		professorB.adicionarCurso(cursoB);
+		//professorA.exibirInformacoes();
+		//professorB.exibirInformacoes();
+		//cursoA.exibirInformacoes();
+		//cursoB.exibirInformacoes();
+		//cursoC.exibirInformacoes();
+		//cursoD.exibirInformacoes();
+		//cursoE.exibirInformacoes();
+		//cursoF.exibirInformacoes();
+		
+		System.out.println("\n Alunos realizando inscrição em cursos...");
+		alunoA.realizarInscricao(cursoA);
+		alunoA.realizarInscricao(cursoB);
+		alunoA.realizarInscricao(cursoC);
+		alunoA.realizarInscricao(cursoD); // Vai falhar, pois já atingiu o limite de cursos ativos
+		alunoB.realizarInscricao(cursoA);
+		alunoB.realizarInscricao(cursoF); // Vai falhar, pois não tem nenhum professor nesse curso
+		//alunoA.exibirInformacoes(); System.out.println();
+		//alunoB.exibirInformacoes();
+		
+		System.out.println("\n aluno A assistindo cursos B e A e solicitando a emissão de certificado...");
+		alunoA.assistirCurso(cursoB, 20);
+		alunoA.solicitarCertificado(cursoB);
+		alunoA.assistirCurso(cursoA, 7);
+		alunoA.solicitarCertificado(cursoA); // Vai falhar, pois não completou a carga horária do curso
+		alunoA.assistirCurso(cursoA, 3);
+		alunoA.solicitarCertificado(cursoA);
+		alunoA.assistirCurso(cursoB, 5);
+		
+		System.out.println("\n Interface Notificavel em ação...");
+		alunoA.notificar("Adorei o curso A! Olha aqui meus certificados em ordem alfabética:");
+		alunoA.ListarCertificados();
+		professorA.notificar("Que bom! Fico contente.");
+		alunoB.notificar("Eu vou precisar cancelar minha inscrição no curso A...");
+		professorB.notificar("Poxa, que pena!");
+		
+		System.out.println("\n aluno B cancelando inscrição em curso A...");
+		alunoB.cancelarInscricao(cursoA);
+		
+		/*
+		System.out.println("\n Vendo as informações dos cursos...");
+		cursoA.exibirInformacoes();
+		cursoB.exibirInformacoes();
+		cursoC.exibirInformacoes();
+		cursoD.exibirInformacoes();
+		cursoE.exibirInformacoes();
+		cursoF.exibirInformacoes();
+		*/
+		
+		System.out.println("\n Adm desativando todos os usuários do próprio escopo...");
+		adm.desativarUsuarios();
+		
+		System.out.println("\n Vendo as informações dos professores...");
+		professorA.exibirInformacoes();
+		professorB.exibirInformacoes();
+		
+		System.out.println("\n Vendo as informações dos alunos...");
+		alunoA.exibirInformacoes();
+		alunoB.exibirInformacoes();
+		
+		System.out.println("\n Vendo as informações dos cursos...");
+		cursoA.exibirInformacoes();
+		cursoB.exibirInformacoes();
+		cursoC.exibirInformacoes();
+		cursoD.exibirInformacoes();
+		cursoE.exibirInformacoes();
+		cursoF.exibirInformacoes();
+		
 		
 		System.out.println("\n\nFim dos testes...");
 	}
-
-/*
- 		System.out.println("Testando a conclusão de curso");
-		Curso cursoA = new Curso("A", Area.ADMINISTRACAO, 5);
-		Professor professorA = new Professor("Professor A", "cpf", 40, "@mail", Area.EMPREENDEDORISMO);
-		Aluno alunoA = new Aluno("Aluno A", "cpf", 20, "@mail");
-		
-		professorA.adicionarCurso(cursoA);
-		alunoA.realizarInscricao(cursoA);
-		cursoA.exibirInformacoes();
-		
-		alunoA.assistirCurso(cursoA, 5);
-		alunoA.solicitarCertificado(cursoA);
-		cursoA.exibirInformacoes();
-		
-		alunoA.exibirInformacoes();
-		alunoA.ListarCertificados();
- */
-	
-/*
- 		System.out.println("Testando o fechamento automático do curso");
-		Curso cursoA = new Curso("A", Area.ADMINISTRACAO, 5);
-		Professor professorA = new Professor("Professor A", "cpf", 40, "@mail", Area.EMPREENDEDORISMO);
-		cursoA.exibirInformacoes(); System.out.println();
-		professorA.adicionarCurso(cursoA);
-		cursoA.exibirInformacoes(); System.out.println();
-		professorA.removerCurso(cursoA);
-		cursoA.exibirInformacoes();
-*/
-
-/*
-		System.out.println("\nCriando curso...");
-		Curso cursoProgramacao = new Curso("Programação 101", Area.TECNOLOGIA, 10, 20);
-		//cursoProgramacao.exibirInformacoes();
-		
-		System.out.println("\nCriando professor...");
-		Professor professorXavier= new Professor("Xavier", "000.000.000-00", 30, "x@uerj.br", Area.TECNOLOGIA);
-		//professorXavier.exibirInformacoes();
-		
-		System.out.println("\nAdicionando curso ao professor e, consequentemente, professor ao curso...");
-		professorXavier.adicionarCurso(cursoProgramacao);
-		//cursoProgramacao.exibirInformacoes();
-		//professorXavier.exibirInformacoes();
-		
-		System.out.println("\nCriando aluno...");
-		Aluno alunoCamilo = new Aluno("Camilo", "999.999.999-99", 25, "c@cmail.com");
-		//alunoCamilo.exibirInformacoes();
-		
-		System.out.println("\nAbrindo o curso...");
-		cursoProgramacao.abrirCurso();
-		
-		System.out.println("\nAdicionando aluno ao curso...");
-		//alunoCamilo.realizarInscricao(cursoProgramacao);
-		//alunoCamilo.exibirInformacoes();
-		//cursoProgramacao.exibirInformacoes();
-		
-		System.out.println("\nCriando comunidade...");
-		Comunidade comunidadeCientificaJuridica = new Comunidade(Area.DIREITO, "Jurídicos da Ciência");
-		//comunidadeCientificaJuridica.exibirInformacoes();
-		
-		System.out.println("\nCriando artigos na comunidade...");
-		comunidadeCientificaJuridica.criarArtigo("Importância dos direitos humanos", "Os direitos humanos são muito importantes, mas não se esqueçam que a natureza também tem direitos e isso se extende para os animais.");
-		comunidadeCientificaJuridica.criarArtigo("Vida e sociedade", "Estudem filosofia e sociologia. São temas importantes.");
-		//comunidadeCientificaJuridica.exibirInformacoes();
-		
-		System.out.println("\nListando os artigos criados...");
-		//comunidadeCientificaJuridica.listarTituloDeArtigos();
-		
-		System.out.println("\nEscolhendo um artigo para ler...");
-		//comunidadeCientificaJuridica.buscarArtigo("Vida e sociedade");
-		
-		System.out.println("\nAdicionando professor à comunidade...");
-		professorXavier.adicionarComunidade(comunidadeCientificaJuridica);
-		//professorXavier.exibirInformacoes();
-		//comunidadeCientificaJuridica.exibirInformacoes();
-
-		System.out.println("\nAdicionando aluno à comunidade...");
-		alunoCamilo.adicionarComunidade(comunidadeCientificaJuridica);
-		//alunoCamilo.exibirInformacoes();
-		//comunidadeCientificaJuridica.exibirInformacoes();
-		/*
-		System.out.println("\nDisparando notificações...");
-		comunidadeCientificaJuridica.notificar("O que estão achando da nossa comunidade?");
-		professorXavier.notificar("Essa é uma comunidade interessante!");
-		alunoCamilo.notificar("Realmente, é bem curiosa!");
-		comunidadeCientificaJuridica.notificar("Pedimos tristemente que saiam da comunidade, pois ela será descontinuada.");
-		
-		System.out.println("\nRemovendo professor de comunidade...");
-		professorXavier.removerComunidade(comunidadeCientificaJuridica);
-		professorXavier.exibirInformacoes();
-		comunidadeCientificaJuridica.exibirInformacoes();
-		
-		System.out.println("\nRemovendo aluno da comunidade...");
-		alunoCamilo.removerComunidade(comunidadeCientificaJuridica);
-		alunoCamilo.exibirInformacoes();
-		comunidadeCientificaJuridica.exibirInformacoes();
-		
-		System.out.println("\nTestando a dinâmica de assistir curso e solicitar certificado...");
-		Aluno alunaKeyla = new Aluno("Keyla", "888.888.888-88", 27, "k@kmail.org");
-		Curso cursoEmpreendedorismo = new Curso("Empreendedorismo inovador", Area.EMPREENDEDORISMO, 2, 10);
-		Professor professoraTatiana = new Professor("Tatiana", "111.111.111-11", 35, "t@uff.br", Area.EMPREENDEDORISMO);
-		professoraTatiana.adicionarCurso(cursoEmpreendedorismo);
-		alunaKeyla.realizarInscricao(cursoEmpreendedorismo);
-		alunaKeyla.assistirCurso(cursoEmpreendedorismo, 5);
-		alunaKeyla.solicitarCertificado(cursoEmpreendedorismo);
-		//alunaKeyla.exibirInformacoes();
-		alunaKeyla.assistirCurso(cursoEmpreendedorismo, 15);
-		alunaKeyla.solicitarCertificado(cursoEmpreendedorismo);
-		//alunaKeyla.exibirInformacoes();
-		//alunaKeyla.ListarCertificados();
-		//System.out.println("\nPegando mais um certificado...");
-		alunaKeyla.realizarInscricao(cursoProgramacao);
-		alunaKeyla.assistirCurso(cursoProgramacao, 20);
-		alunaKeyla.solicitarCertificado(cursoProgramacao);
-		//alunaKeyla.ListarCertificados();
-
-		System.out.println("#################################################################################################################################");
-		System.out.println("\nCriando uma Adm...");
-		Administradora admKarol = new Administradora("Karol");
-		admKarol.exibirInformacoes();
-		System.out.println("\nAdicionando usuarios ao escopo dessa Adm...");
-		admKarol.adicionarUsuario(professorXavier);
-		admKarol.adicionarUsuario(professoraTatiana);
-		admKarol.adicionarUsuario(alunoCamilo);
-		admKarol.adicionarUsuario(alunaKeyla);
-		admKarol.exibirInformacoes();
-		System.out.println("\nExibindo as informações de todos os usuarios dessa Adm...");
-		admKarol.exibirInformacoesDosUsuarios();
-		System.out.println("\nDesativando o cadastro de todos os usuarios...");
-		admKarol.desativarUsuarios();
-		System.out.println("\nVerificando se foi tudo desativado...");
-		professorXavier.exibirInformacoes();
-		professoraTatiana.exibirInformacoes();
-		alunoCamilo.exibirInformacoes();
-		alunaKeyla.exibirInformacoes();
-		cursoProgramacao.exibirInformacoes();
-		cursoEmpreendedorismo.exibirInformacoes();
-		comunidadeCientificaJuridica.exibirInformacoes();
-		System.out.println("#################################################################################################################################");
-
-		System.out.println("\n\nFim dos testes...");
-		*/
 }

@@ -34,11 +34,12 @@ public class Administradora {
 	 public void exibirInformacoesDosUsuarios() {
 		 for (Usuario usuario : usuarios) {
 			 usuario.exibirInformacoes();
+			 System.out.println();
 		 }
 	 }
 	 
 	 public void exibirInformacoes() {
-		 System.out.println("--> Informações de Adm");
+		 System.out.println("    --> Informações de Adm");
 		 System.out.println("Nome: " + nome);
 		 System.out.println("Quantidade de usuários administrados: " + usuarios.size());
 	 }

@@ -52,7 +52,7 @@ public class Inscricao {
 			 if (cursoHorasAssistidas + assistirHoras < curso.getCargaHorariaHoras()) {
 				 cursoHorasAssistidas += assistirHoras; 
 			 }
-			 else {
+			 if (isInscricaoAtiva()) {
 				 cursoHorasAssistidas = curso.getCargaHorariaHoras();
 				 status = StatusInscricao.CONCLUIDA;
 				 curso.registrarTransicaoDeInscricaoAtivaParaConcluida();

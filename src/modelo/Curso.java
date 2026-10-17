@@ -100,7 +100,7 @@ public class Curso {
 	}
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Curso");
+		System.out.println("    --> Informações de Curso");
 		System.out.println("Nome: " + nome);
 		System.out.println("Área: " + area);
 		System.out.println("Carga horário em horas: " + cargaHorariaHoras);

@@ -99,7 +99,7 @@ public class Aluno extends Usuario implements Notificavel{
 	public void ListarCertificados() { // ordenação e exibição da lista certificados
 		Collections.sort(certificados); // usa o compareTo por nome do curso
 		int contador = 1;
-		System.out.println("--> Certificados de " + nome);
+		System.out.println("    --> Certificados de " + nome);
 		for(Certificado certificado: certificados) {
 			System.out.printf("%d. ", contador);
 			contador++;
@@ -122,7 +122,8 @@ public class Aluno extends Usuario implements Notificavel{
 	}
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Aluno");
+		System.out.println("    --> Informações de Aluno");
+		System.out.println("Cadastro ativo: " + cadastroAtivo);
 		System.out.println("Nome: " + nome);
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);

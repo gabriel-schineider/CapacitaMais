@@ -56,8 +56,7 @@ public class Professor extends Usuario implements Notificavel{
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			for (Curso curso : new ArrayList<>(cursos)) {
-				curso.removerProfessor(this);
-				cursos.remove(curso);
+				removerCurso(curso);
 			}
 			cadastroAtivo = false;
 			return true;
@@ -70,7 +69,8 @@ public class Professor extends Usuario implements Notificavel{
 	}
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Professor");
+		System.out.println("    --> Informações de Professor");
+		System.out.println("Cadastro ativo: " + cadastroAtivo);
 		System.out.println("Nome: " + nome);
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);
