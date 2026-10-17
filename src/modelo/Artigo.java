@@ -6,19 +6,38 @@ public class Artigo {
 	private String conteudo;
 	
 	Artigo(Area area, String titulo, String conteudo){
-		// Tudo bem se o título ou o conteúdo for nulo
 		this.area = area;
-		this.titulo = titulo;
-		this.conteudo = conteudo;
+		if (titulo != null && !titulo.equals("")) {
+			this.titulo = titulo;
+		}
+		if (titulo != null && !conteudo.equals("")) {
+			this.conteudo = conteudo;
+		}
 	}
 	
 	String getTitulo() {
 		return titulo;
 	}
 	
+	void mudarTitulo(String novoTitulo) {
+		if (novoTitulo != null && !novoTitulo.equals("")) {
+			titulo = novoTitulo;
+		}
+	}
+	
+	void mudarConteudo(String novoConteudo) {
+		if (novoConteudo != null && !novoConteudo.equals("")) {
+			conteudo = novoConteudo;
+		}
+	}
+	
 	void exibirArtigo() {
-		if(titulo == null && conteudo == null) {
+		if (titulo == null) {
 			System.out.println("Indisponível");
+		}
+		if (conteudo == null) {
+			System.out.println(area + " | Título: " + titulo);
+			System.out.println("Conteúdo indisponível...");
 		}
 		else {
 			System.out.println(area + " | Título: " + titulo);

@@ -14,7 +14,7 @@ public class Aluno extends Usuario implements Notificavel{
 		super(nome, cpf, idade, email);
 		inscricoes = new ArrayList<Inscricao>();
 		certificados = new ArrayList<Certificado>();
-		comunidades = new ArrayList<>();
+		comunidades = new ArrayList<Comunidade>();
 	}
 
 	private int contarInscricoesAtivas() {
@@ -67,24 +67,6 @@ public class Aluno extends Usuario implements Notificavel{
 		return false;
 	}
 
-	public boolean desativarCadastro() {
-		if(cadastroAtivo) {
-			for(Inscricao inscricao: inscricoes) {
-				if(inscricao.isInscricaoAtiva()) {
-					inscricao.cancelarInscricao();
-				}
-			}
-			ArrayList<Comunidade> comunidadesCopia = comunidades;
-			for(Comunidade comunidade : comunidadesCopia) {
-				comunidade.removerAluno();
-				comunidades.remove(comunidade);
-			}
-			cadastroAtivo = false;
-			return true;
-		}
-		return false;
-	}
-	
 	public StatusInscricao receberNota(Curso curso, float nota) {
 		for (Inscricao inscricao: inscricoes) {
 			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoAtiva()) {
@@ -132,7 +114,7 @@ public class Aluno extends Usuario implements Notificavel{
 	}
 	
 	public boolean adicionarComunidade(Comunidade comunidade) {
-		if (!contemComunidade(comunidade)) {
+		if (comunidade != null && !contemComunidade(comunidade)) {
 			comunidades.add(comunidade);
 			comunidade.adicionarAluno();
 			return true;
@@ -141,7 +123,7 @@ public class Aluno extends Usuario implements Notificavel{
 	}
 	
 	public boolean removerComunidade(Comunidade comunidade) {
-		if (contemComunidade(comunidade)) {
+		if (comunidade != null && contemComunidade(comunidade)) {
 			comunidade.removerAluno();
 			comunidades.remove(comunidade);
 			return true;
@@ -149,8 +131,26 @@ public class Aluno extends Usuario implements Notificavel{
 		return false;	
 	}
 	
+	public boolean desativarCadastro() {
+		if(cadastroAtivo) {
+			ArrayList<Comunidade> comunidadesCopia = comunidades;
+			for(Comunidade comunidade : comunidadesCopia) {
+				comunidade.removerAluno();
+				comunidades.remove(comunidade);
+			}
+			for(Inscricao inscricao: inscricoes) {
+				if(inscricao.isInscricaoAtiva()) {
+					inscricao.cancelarInscricao();
+				}
+			}
+			cadastroAtivo = false;
+			return true;
+		}
+		return false;
+	}
+	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Aluno:");
+		System.out.println("--> Informações de Aluno");
 		System.out.println("Nome: " + nome);
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);

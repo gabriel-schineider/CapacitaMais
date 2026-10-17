@@ -28,12 +28,70 @@ public class Professor extends Usuario implements Notificavel{
 		return cursos.contains(curso);
 	}
 	
-	void adicionarCurso(Curso curso) { // Somente sincroniza. Por isso visibilidade package
-		cursos.add(curso);
+	public boolean adicionarCurso(Curso curso) {
+		if (cadastroAtivo && podeReceberCurso()) {
+			if (curso != null && !contemCurso(curso)) {
+				cursos.add(curso);
+				curso.adicionarProfessor(this);
+				if (!curso.isAberto()) {
+					curso.abrirCurso();
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	void removerCurso(Curso curso) { // Somente sincroniza. Por isso visibilidade package
-		cursos.remove(curso);
+	void removerCurso(Curso curso) {
+		if (cadastroAtivo) {
+			if (curso != null && contemCurso(curso)) {
+				if(curso.seRemoverProfessorZeraProfessoresDoCurso()) {
+					curso.fecharCurso();
+				}
+				curso.removerProfessor(this);
+				cursos.remove(curso);
+			}
+		}
+	}
+	
+	private boolean contemComunidade(Comunidade comunidade) {
+		return comunidades.contains(comunidade);
+	}
+	
+	public boolean adicionarComunidade(Comunidade comunidade) {
+		if (comunidade != null && !contemComunidade(comunidade)) {
+			comunidades.add(comunidade);
+			comunidade.adicionarProfessor();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removerComunidade(Comunidade comunidade) {
+		if (comunidade != null && contemComunidade(comunidade)) {
+			comunidade.removerProfessor();
+			comunidades.remove(comunidade);
+			return true;
+		}
+		return false;	
+	}
+	
+	public boolean desativarCadastro() {
+		if(cadastroAtivo) {
+			ArrayList<Comunidade> comunidadesCopia = comunidades;
+			for (Comunidade comunidade : comunidadesCopia) {
+				comunidade.removerProfessor();
+				comunidades.remove(comunidade);
+			}
+			ArrayList<Curso> cursosCopia = cursos;
+			for (Curso curso : cursosCopia) {
+				curso.removerProfessor(this);
+				cursos.remove(curso);
+			}
+			cadastroAtivo = false;
+			return true;
+		}
+		return false;
 	}
 	
 	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {
@@ -43,34 +101,12 @@ public class Professor extends Usuario implements Notificavel{
 		return aluno.receberNota(curso, nota);
 	}
 	
-	private boolean contemComunidade(Comunidade comunidade) {
-		return comunidades.contains(comunidade);
-	}
-	
-	public boolean adicionarComunidade(Comunidade comunidade) {
-		if (!contemComunidade(comunidade)) {
-			comunidades.add(comunidade);
-			comunidade.adicionarProfessor();
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean removerComunidade(Comunidade comunidade) {
-		if (contemComunidade(comunidade)) {
-			comunidade.removerProfessor();
-			comunidades.remove(comunidade);
-			return true;
-		}
-		return false;	
-	}
-	
 	public String getNome() {
 		return nome;
 	}
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Professor:");
+		System.out.println("--> Informações de Professor");
 		System.out.println("Nome: " + nome);
 		System.out.println("CPF: " + cpf);
 		System.out.println("Idade: " + idade);

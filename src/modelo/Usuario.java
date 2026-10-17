@@ -10,7 +10,6 @@ public abstract class Usuario {
 	protected String email;
 	protected boolean cadastroAtivo;
 	
-	// Construtor
 	public Usuario(String nome, String cpf, int idade, String email) {
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
@@ -27,7 +26,6 @@ public abstract class Usuario {
 		cadastroAtivo = true;
 	}
 	
-	// Métodos
 	public boolean atualizarEmail(String emailNovo) {
 		if (emailNovo != null && !emailNovo.equals("") && !emailNovo.equals(email)) {
 			email = emailNovo;
@@ -36,6 +34,10 @@ public abstract class Usuario {
 		return false;
 	}
 	
+	public boolean isCadastroAtivo() {
+		return cadastroAtivo;
+	}
+
 	public void ativarCadastro() {
 		if(!cadastroAtivo) {
 			cadastroAtivo = true;
@@ -48,10 +50,6 @@ public abstract class Usuario {
 			return true;
 		}
 		return false;
-	}
-	
-	public boolean isCadastroAtivo() {
-		return cadastroAtivo;
 	}
 	
 	public abstract void exibirInformacoes();

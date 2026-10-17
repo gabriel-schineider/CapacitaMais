@@ -21,7 +21,7 @@ public class Comunidade implements Notificavel {
 	}
 
 	public boolean criarArtigo(String titulo, String conteudo) {
-		for (Artigo artigo : artigos) {
+		for (Artigo artigo : artigos) { // Verificando se já existe algum artigo igual (com o mesmo título)
 			if (artigo.getTitulo().equals(titulo)) {
 				return false;
 			}
@@ -33,23 +33,32 @@ public class Comunidade implements Notificavel {
 	}
 	
 	public void listarTituloDeArtigos() {
-		System.out.printf("Artigos disponíveis na comunidade %s: \n", nome);
-		int contador = 1;
-		for (Artigo artigo : artigos) {
-			System.out.printf("%d. ", contador);
-			contador++;
-			System.out.println(artigo.getTitulo());
+		if (artigos.size() == 0) {
+			System.out.println("Nenhum artigo disponíveis no momento.");
+		}
+		else {			
+			System.out.printf("Artigos disponíveis na comunidade %s: \n", nome);
+			int contador = 1;
+			for (Artigo artigo : artigos) {
+				System.out.printf("%d. ", contador);
+				contador++;
+				System.out.println(artigo.getTitulo());
+			}
 		}
 	}
 	
 	public void buscarArtigo(String titulo) {
-		for (Artigo artigo : artigos) {
-			if (artigo.getTitulo().equals(titulo)) {
-				artigo.exibirArtigo();
-				return;
+		if (artigos.size() == 0) {
+			System.out.println("Nenhum artigo disponíveis no momento.");
+		} else {			
+			for (Artigo artigo : artigos) {
+				if (artigo.getTitulo().equals(titulo)) {
+					artigo.exibirArtigo();
+					return;
+				}
 			}
+			System.out.println("Busca não encontrada...");
 		}
-		System.out.println("Busca não encontrada...");
 	}
 	
 	public boolean excluirArtigo(String titulo) {
@@ -58,6 +67,26 @@ public class Comunidade implements Notificavel {
 				artigos.remove(artigo);
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	private boolean contemArtigo(Artigo artigo) {
+		return artigos.contains(artigo);
+	}
+	
+	public boolean alterarArtigoTitulo(Artigo artigo, String titulo) {
+		if (contemArtigo(artigo)) {			
+			artigo.mudarTitulo(titulo);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean alterarArtigoConteudo(Artigo artigo, String conteudo) {
+		if (contemArtigo(artigo)) {			
+			artigo.mudarConteudo(conteudo);
+			return true;
 		}
 		return false;
 	}
@@ -91,7 +120,7 @@ public class Comunidade implements Notificavel {
 	}
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Comunidade:");
+		System.out.println("--> Informações de Comunidade");
 		System.out.println("Área: " + area);
 		System.out.println("Nome: " + nome);
 		System.out.println("Total de membros: " + calcularTotalMembros());

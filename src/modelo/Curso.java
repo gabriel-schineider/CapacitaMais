@@ -40,7 +40,7 @@ public class Curso {
 		inscricoesReprovadas = 0;
 	}
 	
-	public boolean isAberto() {
+	boolean isAberto() {
 		return aberto;
 	}
 
@@ -49,6 +49,13 @@ public class Curso {
 			aberto = true;
 		}
 	}
+	
+	boolean temProfessor() {
+		if (professores.size() > 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public void fecharCurso() {
 		if (aberto) {
@@ -56,54 +63,16 @@ public class Curso {
 		}
 	}
 	
-	private boolean contemProfessor(Professor professor) {
-		return professores.contains(professor);
+	boolean seRemoverProfessorZeraProfessoresDoCurso() {
+		return professores.size() == 1;
 	}
 	
-	public boolean adicionarProfessor(Professor professor) {
-		if (professor != null) {
-			if (!contemProfessor(professor) && professor.podeReceberCurso()) {
-					professores.add(professor);
-					professor.adicionarCurso(this);
-					return true;	
-			}
-		}
-		return false;
+	void adicionarProfessor(Professor professor) {  // Somente sincroniza. Por isso visibilidade package
+		professores.add(professor); 
 	}
 	
-	public boolean removerProfessor(Professor professor) {
-		if (professores.size() < 2) { // Não pode deixar o curso sem professor
-			return false;
-		}
-		else {
-			if (contemProfessor(professor)) {
-				professor.removerCurso(this);
-				professores.remove(professor);
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean trocarProfessor(Professor professorAntigo, Professor professorNovo) {
-		if (professorAntigo == null || professorNovo == null) {
-			return false;
-		}
-		if (contemProfessor(professorAntigo) && !contemProfessor(professorNovo) && professorNovo.podeReceberCurso()) {
-			adicionarProfessor(professorNovo); // Essa linha vem primeiro, pois é necessário ter pelo menos 2 professores para remover um
-			professorNovo.adicionarCurso(this);
-			professorAntigo.removerCurso(this);
-			removerProfessor(professorAntigo);
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean temProfessor() {
-		if (professores.size() > 0) {
-			return true;
-		}
-		return false;
+	void removerProfessor(Professor professor) {  // Somente sincroniza. Por isso visibilidade package
+		professores.remove(professor);
 	}
 	
 	public boolean temVaga() {
@@ -113,7 +82,7 @@ public class Curso {
 		return false;
 	}
 	
-	void alterarNumeroVagas(int vagasNovo) {
+	public void alterarNumeroVagas(int vagasNovo) {
 		if (vagasNovo >= inscricoesAtivas) {
 			vagas = vagasNovo;
 		}
@@ -164,12 +133,12 @@ public class Curso {
 		return cargaHorariaHoras;
 	}
 	
-	public ArrayList<Professor> getProfessores() {
+/*	ArrayList<Professor> getProfessores() {
 		return professores;
-	}
+	}*/
 	
 	public void exibirInformacoes() {
-		System.out.println("--> Informações de Curso:");
+		System.out.println("--> Informações de Curso");
 		System.out.println("Nome: " + nome);
 		System.out.println("Área: " + area);
 		System.out.println("Vagas: " + vagas);
