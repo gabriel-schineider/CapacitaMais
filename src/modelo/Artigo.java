@@ -34,6 +34,7 @@ public class Artigo {
 	void exibirArtigo() {
 		if (titulo == null) {
 			System.out.println("Indisponível");
+			return;
 		}
 		if (conteudo == null) {
 			System.out.println(area + " | Título: " + titulo);
