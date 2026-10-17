@@ -15,35 +15,6 @@ public class Curso {
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras, Professor professor) {
-		
-		if (nome != null && !nome.equals("")) {
-			this.nome = nome;
-		}
-		
-		this.area = area;
-		
-		if (vagas > 0) {
-			this.vagas = vagas;	
-		}
-		
-		if (cargaHorariaHoras > 0) {
-			this.cargaHorariaHoras = cargaHorariaHoras;	
-		}
-		
-		professores = new ArrayList<>();
-		if (professor != null) {
-			professores.add(professor);
-		}
-		
-		aberto = professores.size() == 1 ? true : false;
-			
-		inscricoesAtivas = 0;
-		inscricoesConcluidas = 0;
-		inscricoesCanceladas = 0;
-		inscricoesReprovadas = 0;
-	}
-	
 	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras) {
 		
 		if (nome != null && !nome.equals("")) {
@@ -55,6 +26,7 @@ public class Curso {
 		if (vagas > 0) {
 			this.vagas = vagas;	
 		}
+		
 		if (cargaHorariaHoras > 0) {
 			this.cargaHorariaHoras = cargaHorariaHoras;	
 		}
@@ -89,31 +61,39 @@ public class Curso {
 		return professores.contains(professor);
 	}
 	
-	boolean adicionarProfessor(Professor professor) {
+	public boolean adicionarProfessor(Professor professor) {
 		if (professor != null) {
-			if (!contemProfessor(professor)) {
-				professores.add(professor);
+			if (!contemProfessor(professor) && professor.podeReceberCurso()) {
+					professores.add(professor);
+					professor.adicionarCurso(this);
+					return true;	
+			}
+		}
+		return false;
+	}
+	
+	public boolean removerProfessor(Professor professor) {
+		if (professores.size() < 2) { // Não pode deixar o curso sem professor
+			return false;
+		}
+		else {
+			if (contemProfessor(professor)) {
+				professor.removerCurso(this);
+				professores.remove(professor);
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	boolean removerProfessor(Professor professor) {
-		if (professores.size() == 1) { // Não pode deixar o curso sem professor
-			return false;
-		}
-		else {
-			return professores.remove(professor);
-		}
-	}
-	
-	boolean trocarProfessor(Professor professorAntigo, Professor professorNovo) {
+	public boolean trocarProfessor(Professor professorAntigo, Professor professorNovo) {
 		if (professorAntigo == null || professorNovo == null) {
 			return false;
 		}
-		if (contemProfessor(professorAntigo) && !contemProfessor(professorNovo)) {
+		if (contemProfessor(professorAntigo) && !contemProfessor(professorNovo) && professorNovo.podeReceberCurso()) {
 			adicionarProfessor(professorNovo); // Essa linha vem primeiro, pois é necessário ter pelo menos 2 professores para remover um
+			professorNovo.adicionarCurso(this);
+			professorAntigo.removerCurso(this);
 			removerProfessor(professorAntigo);
 			return true;
 		}
@@ -185,7 +165,7 @@ public class Curso {
 		return cargaHorariaHoras;
 	}
 	
-	public ArrayList<Professor> getProfessor() {
+	public ArrayList<Professor> getProfessores() {
 		return professores;
 	}
 	

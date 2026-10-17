@@ -15,9 +15,11 @@ public class Professor extends Usuario implements Notificavel{
 		comunidades = new ArrayList<>();
 	}
 	
-	private boolean podeReceberCurso() {
-		if (cursos.size() < LIMITE_CURSOS) {
-			return true;
+	boolean podeReceberCurso() {
+		if (cadastroAtivo) {
+			if (cursos.size() < LIMITE_CURSOS) {
+				return true;
+			}	
 		}
 		return false;
 	}
@@ -26,50 +28,12 @@ public class Professor extends Usuario implements Notificavel{
 		return cursos.contains(curso);
 	}
 	
-	public boolean adicionarCurso(Curso curso) {
-		if (podeReceberCurso()) {
-			if (!contemCurso(curso)) {
-				cursos.add(curso);
-				curso.adicionarProfessor(this);
-				return true;
-			}
-		}
-		return false;
+	void adicionarCurso(Curso curso) { // Somente sincroniza. Por isso visibilidade package
+		cursos.add(curso);
 	}
 	
-	public boolean removerCurso(Curso curso) {
-		if (contemCurso(curso)) {
-			if (curso.removerProfessor(this)) { // Verificar se foi possível remover o professor lá no curso
-				cursos.remove(curso); // Removendo o curso aqui no professor
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean trocarCurso(Curso cursoAntigo, Curso cursoNovo) {
-		if (cursoAntigo != null && cursoNovo != null) {
-			if (contemCurso(cursoAntigo) && !contemCurso(cursoNovo)) {
-				if (removerCurso(cursoAntigo) == true) { // Verificando se foi possível remover o professor do curso antigo
-					adicionarCurso(cursoNovo); // Removendo o antigo antes de adicionar o novo para não quebrar a regra de LIMITE_CURSOS
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public boolean desativarCadastro() {
-		if(cadastroAtivo) {
-			for(Curso curso: cursos) {
-				if (removerCurso(curso) == false) { // Verificando se não foi possível remover o professor de algum curso
-					return false; // Não pode deixar o curso sem professor
-				}
-			}
-			cadastroAtivo = false;
-			return true;
-		}
-		return false;	
+	void removerCurso(Curso curso) { // Somente sincroniza. Por isso visibilidade package
+		cursos.remove(curso);
 	}
 	
 	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {

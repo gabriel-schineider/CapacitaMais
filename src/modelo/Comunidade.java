@@ -22,7 +22,7 @@ public class Comunidade implements Notificavel {
 
 	public boolean criarArtigo(String titulo, String conteudo) {
 		for (Artigo artigo : artigos) {
-			if (artigo.getTitulo() == titulo) {
+			if (artigo.getTitulo().equals(titulo)) {
 				return false;
 			}
 		}
@@ -48,7 +48,7 @@ public class Comunidade implements Notificavel {
 	
 	public void buscarArtigo(String titulo) {
 		for (Artigo artigo : artigos) {
-			if (artigo.getTitulo() == titulo) {
+			if (artigo.getTitulo().equals(titulo)) {
 				artigo.exibirArtigo();
 				return;
 			}

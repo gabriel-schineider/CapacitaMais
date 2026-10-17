@@ -106,7 +106,7 @@ public class Aluno extends Usuario implements Notificavel{
 	boolean solicitarCertificado(Curso curso) {
 		for(Inscricao inscricao: inscricoes) {
 			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoConcluida()) {
-				Certificado certificado= new Certificado(nome, curso.getNome(), curso.getCargaHorariaHoras());
+				Certificado certificado= inscricao.solicitarCertificado(this.nome);
 				adicionarCertificado(certificado);
 				return true;
 			}
