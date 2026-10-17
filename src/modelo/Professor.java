@@ -43,7 +43,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	void removerCurso(Curso curso) {
+	public void removerCurso(Curso curso) {
 		if (cadastroAtivo) {
 			if (curso != null && contemCurso(curso)) {
 				if(curso.seRemoverProfessorZeraProfessoresDoCurso()) {
@@ -86,8 +86,7 @@ public class Professor extends Usuario implements Notificavel{
 				comunidades.remove(comunidade);
 			}
 			for (Curso curso : new ArrayList<>(cursos)) {
-				curso.removerProfessor(this);
-				cursos.remove(curso);
+				removerCurso(curso);  //era curso.removerProfessor + cursos.remove mas o metodo removerCurso ja faz isso
 			}
 			cadastroAtivo = false;
 			return true;
@@ -96,6 +95,9 @@ public class Professor extends Usuario implements Notificavel{
 	}
 	
 	public StatusInscricao lancarNota(Aluno aluno, Curso curso, float nota) {
+		if (!cadastroAtivo) {
+	        return null;   // professor inativo não lança nota
+	    }
 		if(aluno== null || !contemCurso(curso)) {
 			return null; //professor só pode lançar notas no curso dele
 		}
