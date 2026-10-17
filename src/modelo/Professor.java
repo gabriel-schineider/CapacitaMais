@@ -6,13 +6,11 @@ public class Professor extends Usuario implements Notificavel{
 	private Area area;
 	private ArrayList<Curso> cursos;
 	private static final int LIMITE_CURSOS = 5;
-	private ArrayList<Comunidade> comunidades;
 	
 	public Professor(String nome, String cpf, int idade, String email, Area area) {
 		super(nome, cpf, idade, email);
 		this.area = area;
 		cursos = new ArrayList<Curso>(LIMITE_CURSOS);
-		comunidades = new ArrayList<>();
 	}
 	
 	private boolean podeReceberCurso() {
@@ -55,36 +53,8 @@ public class Professor extends Usuario implements Notificavel{
 		}
 	}
 	
-	private boolean contemComunidade(Comunidade comunidade) {
-		return comunidades.contains(comunidade);
-	}
-	
-	public boolean adicionarComunidade(Comunidade comunidade) {
-		if(cadastroAtivo) {
-			if (comunidade != null && !contemComunidade(comunidade)) {
-				comunidades.add(comunidade);
-				comunidade.adicionarProfessor();
-				return true;
-			}			
-		}
-		return false;
-	}
-	
-	public boolean removerComunidade(Comunidade comunidade) {
-		if (comunidade != null && contemComunidade(comunidade)) {
-			comunidade.removerProfessor();
-			comunidades.remove(comunidade);
-			return true;
-		}
-		return false;	
-	}
-	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
-			for (Comunidade comunidade : new ArrayList<>(comunidades)) {
-				comunidade.removerProfessor();
-				comunidades.remove(comunidade);
-			}
 			for (Curso curso : new ArrayList<>(cursos)) {
 				curso.removerProfessor(this);
 				cursos.remove(curso);
@@ -95,7 +65,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	String getNome() {
+	String getNome() { // Usado para exibir o nome dos Professores no Curso
 		return nome;
 	}
 	
@@ -111,17 +81,11 @@ public class Professor extends Usuario implements Notificavel{
 		for (Curso curso : cursos) {
 			System.out.printf("%s ", curso.getNome());
 		} System.out.println("}");
-		
-		System.out.print("Comunidades que participa: { ");
-		for (Comunidade comunidade : comunidades) {
-			System.out.printf("%s ", comunidade.getNome());
-		} System.out.println("}");
 	}
 	
 	@Override
 	public void notificar(String mensagem) {
 		System.out.printf("Mensagem de professor(a) %s:\n", nome);
 		System.out.printf("   %s\n", mensagem);
-		
 	}
 }

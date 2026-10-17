@@ -12,7 +12,6 @@ public class Curso {
 	private int inscricoesAtivas;
 	private int inscricoesConcluidas;
 	private int inscricoesCanceladas;
-	private int inscricoesReprovadas;
 	
 	public Curso(String nome, Area area, int cargaHorariaHoras) {		
 		if (nome != null && !nome.equals("")) {
@@ -83,30 +82,20 @@ public class Curso {
 		inscricoesCanceladas++;
 	}
 	
-	void registrarTransicaoDeInscricaoAtivaParaReprovada() {
-		inscricoesAtivas--;
-		inscricoesReprovadas++;
-	}
-	
 	void registrarTransicaoDeInscricaoCanceladaParaAtiva() {
 		inscricoesCanceladas--;
 		inscricoesAtivas++;
 	}
 	
-	void registrarTransicaoDeInscricaoReprovadaParaAtiva() {
-		inscricoesReprovadas--;
-		inscricoesAtivas++;
-	}
-	
 	private int calcularTotalInscricoes() {
-		return inscricoesAtivas + inscricoesConcluidas + inscricoesCanceladas + inscricoesReprovadas;
+		return inscricoesAtivas + inscricoesConcluidas + inscricoesCanceladas;
 	}
 	
-	public String getNome() {
+	public String getNome() { // Usado para exibir o nome dos Cursos no Professor e para emitir o certificado
 		return nome;
 	}
     
-	public int getCargaHorariaHoras() {
+	public int getCargaHorariaHoras() { // Usada para validar a conclusão de curso e para emitir o certificado
 		return cargaHorariaHoras;
 	}
 	
@@ -126,7 +115,6 @@ public class Curso {
 		System.out.println("Inscrições ativas: " + inscricoesAtivas);
 		System.out.println("Inscrições concluídas: " + inscricoesConcluidas);
 		System.out.println("Inscrições canceladas: " + inscricoesCanceladas);
-		System.out.println("Inscrições reprovadas: " + inscricoesReprovadas);
 	}
 
 	@Override

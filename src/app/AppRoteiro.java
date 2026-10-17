@@ -39,7 +39,6 @@ public class AppRoteiro {
 		cursoA.exibirInformacoes();
 */
 
-
 /*
 		System.out.println("\nCriando curso...");
 		Curso cursoProgramacao = new Curso("Programação 101", Area.TECNOLOGIA, 10, 20);

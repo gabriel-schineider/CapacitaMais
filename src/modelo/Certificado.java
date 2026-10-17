@@ -21,15 +21,15 @@ public class Certificado implements Comparable<Certificado> {
 		dataEmissao = LocalDate.now();
 	}
 
-	// Ordenação
-	@Override
-	public int compareTo(Certificado outro) {
-		return nomeCurso.compareTo(outro.nomeCurso);
-	}
-	
 	public void exibirCertificado() {
 		System.out.printf("%s | Certificado de conclusão de curso.\n", nomeCurso);
 		System.out.printf("Certificamos que %s concluiu o curso '%s' de carga horária equivalente à %d horas no dia %s.\n", nomeAluno, nomeCurso, cargaHorariaHoras, dataEmissao);
 		System.out.println("Assinatura:  Capacita+\n\t    -----------");
+	}
+	
+	// Ordenação
+	@Override
+	public int compareTo(Certificado outro) {
+		return nomeCurso.compareTo(outro.nomeCurso);
 	}
 }

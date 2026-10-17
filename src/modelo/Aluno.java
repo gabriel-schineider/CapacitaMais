@@ -7,13 +7,11 @@ import java.util.Collections;
 public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
 	private static final int MAX_INSCRICOES_ATIVAS = 3;
-	private ArrayList<Comunidade> comunidades;
 	private ArrayList<Certificado> certificados;
 
 	public Aluno(String nome, String cpf, int idade, String email) {
 		super(nome, cpf, idade, email);
 		inscricoes = new ArrayList<>();
-		comunidades = new ArrayList<>();
 		certificados = new ArrayList<>();
 	}
 
@@ -109,40 +107,12 @@ public class Aluno extends Usuario implements Notificavel{
 		}
 	}
 	
-	private boolean contemComunidade(Comunidade comunidade) {
-		return comunidades.contains(comunidade);
-	}
-	
-	public boolean adicionarComunidade(Comunidade comunidade) {
-		if (cadastroAtivo) {
-			if (comunidade != null && !contemComunidade(comunidade)) {
-				comunidades.add(comunidade);
-				comunidade.adicionarAluno();
-				return true;
-			}		
-		}
-		return false;
-	}
-	
-	public boolean removerComunidade(Comunidade comunidade) {
-		if (comunidade != null && contemComunidade(comunidade)) {
-			comunidade.removerAluno();
-			comunidades.remove(comunidade);
-			return true;
-		}
-		return false;	
-	}
-	
 	public boolean desativarCadastro() {
 		if(cadastroAtivo) {
 			for(Inscricao inscricao: inscricoes) {
 				if(inscricao.isInscricaoAtiva()) {
 					inscricao.cancelarInscricao();
 				}
-			}
-			for(Comunidade comunidade : new ArrayList<>(comunidades)) {
-				comunidade.removerAluno();
-				comunidades.remove(comunidade);
 			}
 			// Certificados continuam armazenados
 			cadastroAtivo = false;
@@ -165,11 +135,6 @@ public class Aluno extends Usuario implements Notificavel{
 			if (inscricao.isInscricaoAtiva()) {
 				System.out.printf("%s ", inscricao.getCurso().getNome());
 			}
-		} System.out.println("}");
-		
-		System.out.print("Comunidades que participa: { ");
-		for (Comunidade comunidade : comunidades) {
-			System.out.printf("%s ", comunidade.getNome());
 		} System.out.println("}");
 	}
 	
