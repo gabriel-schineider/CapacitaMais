@@ -18,10 +18,11 @@ public class Inscricao {
 	}
 	
 	 public StatusInscricao fazerProva(float nota){
-		 if(!isInscricaoAtiva()) {
+		 if(!isInscricaoAtiva() || tentativas>= MAX_TENTATIVAS) {
 			 return status;
 		 }
-		 if(tentativas>= MAX_TENTATIVAS) {
+		 
+		 if(nota<0 || nota>10) {
 			 return status;
 		 }
 		 
