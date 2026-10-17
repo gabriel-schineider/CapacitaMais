@@ -55,7 +55,7 @@ public class Comunidade implements Notificavel {
 			System.out.println("Nenhum artigo disponíveis no momento.");
 		} else {			
 			for (Artigo artigo : artigos) {
-				if (titulo.equals(artigo.getTitulo())) {
+				if (artigo.getTitulo().equals(titulo)) {
 					artigo.exibirArtigo();
 					return;
 				}
@@ -66,7 +66,7 @@ public class Comunidade implements Notificavel {
 	
 	public boolean excluirArtigo(String titulo) {
 		for (Artigo artigo : artigos) {
-			if (titulo.equals(artigo.getTitulo())) {
+			if (artigo.getTitulo().equals(titulo)) {
 				artigos.remove(artigo);
 				return true;
 			}
@@ -75,14 +75,17 @@ public class Comunidade implements Notificavel {
 	}
 	
 	public boolean alterarArtigoTitulo(String tituloAntigo, String tituloNovo) {
+		if (conteudoNovo == null || conteudoNovo.equals("")) {
+		    return false;
+		}
 		for (Artigo artigo : artigos) { // Verificando se já existe um título desse na comunidade
-			if (tituloNovo.equals(artigo.getTitulo())) {
+			if (artigo.getTitulo().equals(tituloNovo)) {
 				return false;
 			}
 		}
 		for (Artigo artigo : artigos) {
-			if (tituloAntigo.equals(artigo.getTitulo())) {
-				artigo.mudarConteudo(tituloNovo);
+			if (artigo.getTitulo().equals(tituloAntigo)) {
+				artigo.mudarTitulo(tituloNovo);
 				return true;
 			}
 		}
@@ -90,8 +93,11 @@ public class Comunidade implements Notificavel {
 	}
 	
 	public boolean alterarArtigoConteudo(String titulo, String conteudoNovo) {
+		if (conteudoNovo == null || conteudoNovo.equals("")) {
+		    return false;
+		}
 		for (Artigo artigo : artigos) {
-			if (titulo.equals(artigo.getTitulo())) {
+			if (artigo.getTitulo().equals(titulo)) {
 				artigo.mudarConteudo(conteudoNovo);
 				return true;
 			}
