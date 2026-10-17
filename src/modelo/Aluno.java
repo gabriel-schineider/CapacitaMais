@@ -67,7 +67,7 @@ public class Aluno extends Usuario implements Notificavel{
 		return false;
 	}
 
-	public StatusInscricao receberNota(Curso curso, float nota) {
+	StatusInscricao receberNota(Curso curso, float nota) {
 		for (Inscricao inscricao: inscricoes) {
 			if(inscricao.getCurso().equals(curso) && inscricao.isInscricaoAtiva()) {
 				StatusInscricao resultado= inscricao.fazerProva(nota);
@@ -84,7 +84,7 @@ public class Aluno extends Usuario implements Notificavel{
 		return certificados.contains(certificado);
 	}
 	
-	public void adicionarCertificado(Certificado certificado) {
+	private void adicionarCertificado(Certificado certificado) {
 		if(certificado != null && !contemCertificado(certificado)) {
 			certificados.add(certificado);
 		}
@@ -102,7 +102,7 @@ public class Aluno extends Usuario implements Notificavel{
 	}
 
 	//ordenação e exibição da lista certificados
-	public void ListarCertificados() {
+	public void listarCertificados() {
 		Collections.sort(certificados); // usa o compareTo por nome do curso
 		for(Certificado certificado: certificados) {
 			certificado.exibirCertificado();
