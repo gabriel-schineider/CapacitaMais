@@ -6,7 +6,6 @@ import java.util.Objects;
 public class Curso {
 	private String nome;
 	private Area area;
-	private int vagas;
 	private int cargaHorariaHoras;
 	private ArrayList<Professor> professores;
 	private boolean aberto;
@@ -15,16 +14,12 @@ public class Curso {
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras) {		
+	public Curso(String nome, Area area, int cargaHorariaHoras) {		
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
 		}
 		
 		this.area = area;
-		
-		if (vagas > 0) {
-			this.vagas = vagas;	
-		}
 		
 		if (cargaHorariaHoras > 0) {
 			this.cargaHorariaHoras = cargaHorariaHoras;	
@@ -37,7 +32,6 @@ public class Curso {
 		inscricoesAtivas = 0;
 		inscricoesConcluidas = 0;
 		inscricoesCanceladas = 0;
-		inscricoesReprovadas = 0;
 	}
 	
 	public boolean isAberto() {
@@ -73,19 +67,6 @@ public class Curso {
 	
 	void removerProfessor(Professor professor) {  // Somente sincroniza. Por isso visibilidade package
 		professores.remove(professor);
-	}
-	
-	public boolean temVaga() {
-		if (inscricoesAtivas < vagas) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void alterarNumeroVagas(int vagasNovo) {
-		if (vagasNovo > 0 && vagasNovo >= inscricoesAtivas) {
-			vagas = vagasNovo;
-		}
 	}
 	
 	void registrarInscricaoAtiva() {
@@ -133,7 +114,6 @@ public class Curso {
 		System.out.println("--> Informações de Curso");
 		System.out.println("Nome: " + nome);
 		System.out.println("Área: " + area);
-		System.out.println("Vagas: " + vagas);
 		System.out.println("Carga horário em horas: " + cargaHorariaHoras);
 		
 		System.out.print("Professores: { ");

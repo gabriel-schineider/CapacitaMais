@@ -7,7 +7,7 @@ public class Inscricao {
 	private Certificado certificado;
 	
 	Inscricao(Curso curso) {
-		// Verificação de "curso == null || !curso.isAberto() || !curso.temVaga()" já realizada em Aluno quando tenta se inscrever em um curso
+		// Verificação de "curso == null || !curso.isAberto()" já realizada em Aluno quando tenta se inscrever em um curso
 		this.curso = curso;
 		status = StatusInscricao.ATIVA;
 		this.curso.registrarInscricaoAtiva();
@@ -15,23 +15,19 @@ public class Inscricao {
 		certificado = null;
 	}
 	
-	 public boolean isInscricaoAtiva() {
+	 boolean isInscricaoAtiva() {
 		 return status == StatusInscricao.ATIVA;
 	 }
 	 
-	 public boolean isInscricaoConcluida() {
+	 boolean isInscricaoConcluida() {
 		 return status== StatusInscricao.CONCLUIDA;
 	 }
 
-	 public boolean isInscricaoCancelada() {
+	 boolean isInscricaoCancelada() {
 		 return status== StatusInscricao.CANCELADA;
 	 }
 	 
-	 public boolean isInscricaoReprovada() {
-		 return status== StatusInscricao.REPROVADA;
-	 }
-	 
-	 public boolean cancelarInscricao() {
+	 boolean cancelarInscricao() {
 		 if(isInscricaoAtiva()) {
 			 status = StatusInscricao.CANCELADA;
 			 curso.registrarTransicaoDeInscricaoAtivaParaCancelada();
@@ -40,21 +36,15 @@ public class Inscricao {
 		 return false;
 	 }
 	 
-	 public boolean reativarInscricao() {
-		 if(curso.isAberto() && curso.temVaga()) {
-			 if(isInscricaoCancelada()) {
-				 status = StatusInscricao.ATIVA;
-				 curso.registrarTransicaoDeInscricaoCanceladaParaAtiva();
-				 return true;
-			 }
-			 if(isInscricaoReprovada()) {
-				 cursoHorasAssistidas =0;
-				 status = StatusInscricao.ATIVA;
-				 curso.registrarTransicaoDeInscricaoReprovadaParaAtiva();
-				 return true;
-			 }
-		 }
-		 return false;
+	boolean reativarInscricao() {
+		if(curso.isAberto()) {
+			if(isInscricaoCancelada()) {
+				status = StatusInscricao.ATIVA;
+				curso.registrarTransicaoDeInscricaoCanceladaParaAtiva();
+				return true;
+			}
+		}
+		return false;
 	 }
 	 
 	 void assistirCurso(int assistirHoras) {
@@ -65,6 +55,7 @@ public class Inscricao {
 			 else {
 				 cursoHorasAssistidas = curso.getCargaHorariaHoras();
 				 status = StatusInscricao.CONCLUIDA;
+				 curso.registrarTransicaoDeInscricaoAtivaParaConcluida();
 			 }
 		 }
 	 }
@@ -81,7 +72,7 @@ public class Inscricao {
 		return certificado;
 	}
 	
-	public Curso getCurso() {
+	Curso getCurso() {
 		return curso;
 	}
 }

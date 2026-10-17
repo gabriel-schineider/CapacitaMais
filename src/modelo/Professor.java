@@ -15,7 +15,7 @@ public class Professor extends Usuario implements Notificavel{
 		comunidades = new ArrayList<>();
 	}
 	
-	boolean podeReceberCurso() {
+	private boolean podeReceberCurso() {
 		if (cadastroAtivo) {
 			if (cursos.size() < LIMITE_CURSOS) {
 				return true;
@@ -43,7 +43,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	void removerCurso(Curso curso) {
+	public void removerCurso(Curso curso) {
 		if (cadastroAtivo) {
 			if (curso != null && contemCurso(curso)) {
 				if(curso.seRemoverProfessorZeraProfessoresDoCurso()) {
@@ -95,7 +95,7 @@ public class Professor extends Usuario implements Notificavel{
 		return false;
 	}
 	
-	public String getNome() {
+	String getNome() {
 		return nome;
 	}
 	

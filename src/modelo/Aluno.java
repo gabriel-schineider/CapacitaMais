@@ -31,7 +31,7 @@ public class Aluno extends Usuario implements Notificavel{
 		if (!isCadastroAtivo()) {
 			return false;
 		}
-		if (curso == null || !curso.isAberto() || !curso.temVaga()) {
+		if (curso == null || !curso.isAberto()) {
 			return false;
 		}
 		if (contarInscricoesAtivas() == MAX_INSCRICOES_ATIVAS) {
@@ -43,7 +43,7 @@ public class Aluno extends Usuario implements Notificavel{
 				if (inscricao.isInscricaoAtiva() || inscricao.isInscricaoConcluida()) {
 					return false;
 				}
-				if (inscricao.isInscricaoCancelada() || inscricao.isInscricaoReprovada()) {
+				if (inscricao.isInscricaoCancelada()) {
 					inscricao.reativarInscricao();
 					return true;
 				}
@@ -101,7 +101,7 @@ public class Aluno extends Usuario implements Notificavel{
 	public void ListarCertificados() { // ordenação e exibição da lista certificados
 		Collections.sort(certificados); // usa o compareTo por nome do curso
 		int contador = 1;
-		System.out.println("--> Certificados da " + nome);
+		System.out.println("--> Certificados de " + nome);
 		for(Certificado certificado: certificados) {
 			System.out.printf("%d. ", contador);
 			contador++;
