@@ -15,8 +15,7 @@ public class Curso {
 	private int inscricoesCanceladas;
 	private int inscricoesReprovadas;
 	
-	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras) {
-		
+	public Curso(String nome, Area area, int vagas, int cargaHorariaHoras) {		
 		if (nome != null && !nome.equals("")) {
 			this.nome = nome;
 		}
@@ -46,7 +45,7 @@ public class Curso {
 	}
 
 	public void abrirCurso() {
-		if (!aberto) {
+		if (temProfessor() && !aberto) {
 			aberto = true;
 		}
 	}
@@ -124,7 +123,7 @@ public class Curso {
 		return nota;
 	}
 	
-	public void registrarInscricaoAtiva() {
+	void registrarInscricaoAtiva() {
 		inscricoesAtivas++;
 	}
 	
@@ -191,7 +190,7 @@ public class Curso {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(nome);
+		return Objects.hash(area, cargaHorariaHoras, nome, professores);
 	}
 
 	@Override
@@ -203,6 +202,7 @@ public class Curso {
 		if (getClass() != obj.getClass())
 			return false;
 		Curso other = (Curso) obj;
-		return Objects.equals(nome, other.nome);
+		return area == other.area && cargaHorariaHoras == other.cargaHorariaHoras && Objects.equals(nome, other.nome)
+				&& Objects.equals(professores, other.professores);
 	}
 }

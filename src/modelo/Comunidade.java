@@ -32,10 +32,6 @@ public class Comunidade implements Notificavel {
 		return true;
 	}
 	
-	public boolean excluirArtigo(Artigo artigo) {
-		return artigos.remove(artigo);
-	}
-	
 	public void listarTituloDeArtigos() {
 		System.out.printf("Artigos disponíveis na comunidade %s: \n", nome);
 		int contador = 1;
@@ -54,6 +50,16 @@ public class Comunidade implements Notificavel {
 			}
 		}
 		System.out.println("Busca não encontrada...");
+	}
+	
+	public boolean excluirArtigo(String titulo) {
+		for (Artigo artigo : artigos) {
+			if (artigo.getTitulo().equals(titulo)) {
+				artigos.remove(artigo);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	void adicionarAluno() {

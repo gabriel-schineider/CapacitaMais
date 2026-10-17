@@ -74,6 +74,11 @@ public class Aluno extends Usuario implements Notificavel{
 					inscricao.cancelarInscricao();
 				}
 			}
+			ArrayList<Comunidade> comunidadesCopia = comunidades;
+			for(Comunidade comunidade : comunidadesCopia) {
+				comunidade.removerAluno();
+				comunidades.remove(comunidade);
+			}
 			cadastroAtivo = false;
 			return true;
 		}
