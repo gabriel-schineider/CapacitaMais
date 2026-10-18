@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Administradora {
+public class Administradora implements Notificavel{
 	private String nome;
 	private ArrayList<Usuario> usuarios;
 	
@@ -43,4 +43,10 @@ public class Administradora {
 		 System.out.println("Nome: " + nome);
 		 System.out.println("Quantidade de usuários administrados: " + usuarios.size());
 	 }
+	 
+	 @Override
+		public void notificar(String mensagem) {
+			System.out.printf("Mensagem de adm(a) %s:\n", nome);
+			System.out.printf("   %s\n", mensagem);
+		}
 }
