@@ -48,11 +48,14 @@ public class Inscricao {
 	 }
 	 
 	 void assistirCurso(int assistirHoras) {
-		 if (assistirHoras > 0) {
+		 if (assistirHoras < 0 || !isInscricaoAtiva()) { // Inscrição não ativa é igual à inscrição concluída ou cancelada
+			 return;
+		 }
+		 else {
 			 if (cursoHorasAssistidas + assistirHoras < curso.getCargaHorariaHoras()) {
 				 cursoHorasAssistidas += assistirHoras; 
 			 }
-			 if (isInscricaoAtiva()) {
+			 else {
 				 cursoHorasAssistidas = curso.getCargaHorariaHoras();
 				 status = StatusInscricao.CONCLUIDA;
 				 curso.registrarTransicaoDeInscricaoAtivaParaConcluida();

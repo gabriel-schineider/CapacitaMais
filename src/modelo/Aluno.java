@@ -2,7 +2,6 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
-//import java.util.Set;
 
 public class Aluno extends Usuario implements Notificavel{
 	private ArrayList<Inscricao> inscricoes;
@@ -91,6 +90,7 @@ public class Aluno extends Usuario implements Notificavel{
 	private boolean adicionarCertificado(Certificado certificado) {
 		if(certificado != null && !contemCertificado(certificado)) {
 			certificados.add(certificado);
+			notificar("Certificado recebido!");
 			return true;
 		}
 		return false;

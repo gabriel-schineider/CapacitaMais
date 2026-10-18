@@ -33,16 +33,32 @@ public class Curso {
 		inscricoesCanceladas = 0;
 	}
 	
-	public boolean isAberto() {
+	public Curso(String nome, Area area, int cargaHorariaHoras, Professor professor) {		
+		if (nome != null && !nome.equals("")) {
+			this.nome = nome;
+		}
+		
+		this.area = area;
+		
+		if (cargaHorariaHoras > 0) {
+			this.cargaHorariaHoras = cargaHorariaHoras;	
+		}
+		
+		professores = new ArrayList<>();
+		if (professor != null) {
+			adicionarProfessor(professor);
+			aberto = true;
+		}
+			
+		inscricoesAtivas = 0;
+		inscricoesConcluidas = 0;
+		inscricoesCanceladas = 0;
+	}
+	
+	boolean isAberto() {
 		return aberto;
 	}
 
-	public void abrirCurso() {
-		if (temProfessor() && !aberto) {
-			aberto = true;
-		}
-	}
-	
 	boolean temProfessor() {
 		if (professores.size() > 0) {
 			return true;
@@ -50,14 +66,20 @@ public class Curso {
 		return false;
 	}
 
+	boolean seRemoverProfessorZeraProfessoresDoCurso() {
+		return professores.size() == 1;
+	}
+	
+	public void abrirCurso() {
+		if (temProfessor() && !aberto) {
+			aberto = true;
+		}
+	}
+
 	public void fecharCurso() {
 		if (aberto) {
 			aberto = false;
 		}
-	}
-	
-	boolean seRemoverProfessorZeraProfessoresDoCurso() {
-		return professores.size() == 1;
 	}
 	
 	void adicionarProfessor(Professor professor) {  // Somente sincroniza. Por isso visibilidade package
